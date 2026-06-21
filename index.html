@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Our Days — a personal memory scrapbook from Arriq to Dad, Father's Day 2026">
+  <meta name="theme-color" content="#0c1220">
+  <title>Our Days</title>
+
+  <!--
+    ═══════════════════════════════════════════════════════════════════
+    OUR DAYS 0 Father's Day 2026
+    Built with endless love by Arriq (15) for Dad
+
+    HOW TO CUSTOMIZE:
+    1. Add photos to images/ folder (see images/README.md)
+    2. Edit PHOTOS[], MEMORIES[], APPRECIATION[] below
+    3. Add images/hero-photo.jpg: a photo of you and Dad for the cover
+    4. Optional: audio/calm-ambient.mp3 for background music
+    5. Open index.html in any browser
+    ═══════════════════════════════════════════════════════════════════
+  -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Nunito:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            hand: ['Caveat', 'cursive'],
+            serif: ['Lora', 'Georgia', 'serif'],
+            body: ['Nunito', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg-deep: #0c1220;
+      --bg-paper: #141c2e;
+      --bg-warm: #1a2236;
+      --accent-teal: #7ec4b6;
+      --accent-amber: #e8b86d;
+      --accent-amber-soft: #d4a574;
+      --accent-rose: #c9958a;
+      --text-primary: #ede8df;
+      --text-muted: #a89f94;
+      --text-soft: #7a7268;
+      --paper-line: rgba(232, 184, 109, 0.08);
+      --timeline-line: rgba(126, 196, 182, 0.25);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: 'Nunito', system-ui, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* Paper texture overlay */
+    .paper-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"),
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232, 184, 109, 0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 80%, rgba(126, 196, 182, 0.05) 0%, transparent 50%),
+        var(--bg-deep);
+    }
+
+    /* Scrapbook card */
+    .scrap-card {
+      background: linear-gradient(145deg, rgba(26, 34, 54, 0.95) 0%, rgba(20, 28, 46, 0.98) 100%);
+      border: 1px solid rgba(232, 184, 109, 0.12);
+      border-radius: 4px 4px 12px 12px;
+      box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    /* Tape strips on polaroid */
+    .tape {
+      position: absolute;
+      width: 56px;
+      height: 18px;
+      background: rgba(232, 220, 180, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .tape-tl { top: -6px; left: 20px; transform: rotate(-8deg); }
+    .tape-tr { top: -6px; right: 20px; transform: rotate(6deg); }
+
+    /* Hero */
+    .hero-scrapbook {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem 4rem;
+      position: relative;
+    }
+
+    .hero-polaroid {
+      --rotate: -2deg;
+      max-width: 280px;
+      width: 72vw;
+      margin-bottom: 2.5rem;
+      position: relative;
+      animation: settleIn 1.4s ease-out forwards;
+    }
+
+    @keyframes settleIn {
+      from { opacity: 0; transform: rotate(-4deg) translateY(30px); }
+      to { opacity: 1; transform: rotate(-2deg) translateY(0); }
+    }
+
+    .hero-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(4rem, 14vw, 7.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      margin: 0 0 0.5rem;
+      text-shadow: 0 2px 20px rgba(232, 184, 109, 0.15);
+      animation: titleWrite 1.6s ease-out 0.3s both;
+    }
+
+    @keyframes titleWrite {
+      from { opacity: 0; letter-spacing: 0.12em; }
+      to { opacity: 1; letter-spacing: 0.04em; }
+    }
+
+    .hero-subtitle {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: clamp(1.05rem, 3.5vw, 1.35rem);
+      color: var(--accent-amber);
+      opacity: 0.92;
+      margin-bottom: 0.75rem;
+      animation: fadeUp 1s ease-out 0.6s both;
+    }
+
+    .hero-byline {
+      font-family: 'Caveat', cursive;
+      font-size: 1.35rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      animation: fadeUp 1s ease-out 0.8s both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Handcrafted button */
+    .btn-journey {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--bg-deep);
+      background: linear-gradient(180deg, var(--accent-amber) 0%, var(--accent-amber-soft) 100%);
+      border: none;
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      box-shadow: 0 4px 16px rgba(232, 184, 109, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation: fadeUp 1s ease-out 1s both;
+    }
+    .btn-journey:hover {
+      transform: translateY(-3px) rotate(-0.5deg);
+      box-shadow: 0 8px 24px rgba(232, 184, 109, 0.35);
+    }
+    .btn-journey:focus-visible {
+      outline: 2px solid var(--accent-teal);
+      outline-offset: 4px;
+    }
+
+    /* Letter */
+    .letter-page {
+      background: linear-gradient(180deg, rgba(26, 34, 54, 0.6) 0%, rgba(20, 28, 46, 0.8) 100%);
+      border-left: 3px solid rgba(232, 184, 109, 0.3);
+      padding: 2.5rem 2rem;
+      position: relative;
+    }
+    .letter-page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        transparent,
+        transparent 31px,
+        var(--paper-line) 31px,
+        var(--paper-line) 32px
+      );
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .letter-page p {
+      font-family: 'Lora', Georgia, serif;
+      position: relative;
+    }
+
+    /* ── Photo book gallery ── */
+    .photobook {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .book-page {
+      background:
+        linear-gradient(180deg, rgba(26, 34, 54, 0.97) 0%, rgba(18, 26, 42, 0.99) 100%);
+      border: 1px solid rgba(232, 184, 109, 0.14);
+      border-radius: 6px;
+      padding: 2rem 1.25rem 2.5rem;
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+    .book-page::after {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px dashed rgba(232, 184, 109, 0.08);
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    .book-chapter-head {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(232, 184, 109, 0.12);
+    }
+    .book-chapter-head .chapter-title {
+      margin-top: 0;
+    }
+
+    .book-spread {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem 1.5rem;
+      justify-items: center;
+      align-items: start;
+    }
+    @media (min-width: 540px) {
+      .book-spread { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 900px) {
+      .book-spread { grid-template-columns: repeat(3, 1fr); gap: 2.5rem 2rem; }
+    }
+
+    .book-photo-wrap {
+      width: 100%;
+      max-width: 300px;
+      align-self: start;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .book-photo-wrap.reveal-photo {
+      opacity: 0;
+      transform: translateY(20px) rotate(var(--rotate, 0deg));
+    }
+    .book-photo-wrap.reveal-photo.visible {
+      opacity: 1;
+      transform: translateY(0) rotate(var(--rotate, 0deg));
+    }
+
+    .chapter-header {
+      position: relative;
+      text-align: center;
+      margin: 3rem 0 2.5rem;
+      padding-top: 1rem;
+    }
+    .chapter-header::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent-amber);
+      box-shadow: 0 0 0 4px rgba(232, 184, 109, 0.2), 0 0 20px rgba(232, 184, 109, 0.3);
+      z-index: 1;
+    }
+    .chapter-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(2.2rem, 6vw, 3rem);
+      font-weight: 700;
+      color: var(--accent-amber);
+      margin: 1rem 0 0.25rem;
+    }
+    .chapter-subtitle {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Polaroid: image sets height; caption sits tight below */
+    .polaroid {
+      background: #f5f0e8;
+      padding: 10px 10px 14px;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.45),
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+      transform: rotate(var(--rotate, 0deg));
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.03);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(232, 184, 109, 0.25);
+    }
+    .polaroid:focus-visible {
+      outline: 2px solid var(--accent-teal);
+      outline-offset: 4px;
+    }
+    .polaroid img {
+      width: 100%;
+      height: auto;
+      display: block;
+      vertical-align: top;
+      filter: sepia(0.06) contrast(1.02);
+    }
+    .polaroid .photo-inner {
+      overflow: hidden;
+      background: #e8e0d4;
+      position: relative;
+      line-height: 0;
+      flex-shrink: 0;
+    }
+
+    .polaroid-year {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #4a443c;
+      background: rgba(245, 240, 232, 0.92);
+      padding: 1px 10px 3px;
+      transform: rotate(2deg);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+      line-height: 1.2;
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      font-weight: 500;
+      color: #2c2824;
+      line-height: 1.25;
+      margin: 8px 6px 0;
+      padding-bottom: 2px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .polaroid-note {
+      font-family: 'Caveat', cursive;
+      font-size: 1rem;
+      color: #6b635a;
+      text-align: center;
+      margin: 0 8px 2px;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ddd5c8 0%, #c9bfb0 100%);
+    }
+
+    /* Search & filters */
+    .search-input {
+      background: rgba(26, 34, 54, 0.8);
+      border: 1px solid rgba(232, 184, 109, 0.15);
+      border-radius: 8px;
+      color: var(--text-primary);
+      padding: 0.65rem 1rem 0.65rem 2.5rem;
+      width: 100%;
+      font-family: 'Nunito', sans-serif;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: rgba(126, 196, 182, 0.4);
+      box-shadow: 0 0 0 3px rgba(126, 196, 182, 0.1);
+    }
+
+    .chapter-jump {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      border: 1px solid rgba(232, 184, 109, 0.2);
+      color: var(--text-muted);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chapter-jump:hover, .chapter-jump.active {
+      color: var(--accent-amber);
+      border-color: rgba(232, 184, 109, 0.4);
+      background: rgba(232, 184, 109, 0.08);
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    .book-page.reveal { opacity: 0; transform: translateY(24px); }
+    .book-page.reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(12, 18, 32, 0.96);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .lightbox.open { opacity: 1; visibility: visible; }
+    .lightbox-img-wrap {
+      background: #f5f0e8;
+      padding: 12px 12px 40px 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      max-width: 90vw;
+    }
+    .lightbox img {
+      max-width: 85vw;
+      max-height: 60vh;
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(232, 184, 109, 0.15);
+      border: 1px solid rgba(232, 184, 109, 0.3);
+      color: var(--accent-amber);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-nav:hover { background: rgba(232, 184, 109, 0.25); }
+    .lightbox-nav.prev { left: 1rem; }
+    .lightbox-nav.next { right: 1rem; }
+
+    /* Calm & memory: warm personal moments */
+    .warm-moment-card {
+      background: linear-gradient(165deg, rgba(232, 184, 109, 0.07) 0%, rgba(26, 34, 54, 0.55) 45%, rgba(126, 196, 182, 0.05) 100%);
+      border: 1px solid rgba(232, 184, 109, 0.18);
+      border-radius: 4px 18px 6px 20px / 18px 4px 20px 6px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      position: relative;
+    }
+    .warm-moment-card::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      width: 72px;
+      height: 22px;
+      background: rgba(232, 184, 109, 0.22);
+      border-radius: 2px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    }
+    .moment-eyebrow {
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      color: var(--accent-amber);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.25rem;
+    }
+    .moment-intro {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 26rem;
+      margin: 0 auto 1.25rem;
+    }
+    .personal-note {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.35rem, 4vw, 1.65rem);
+      color: var(--accent-amber);
+      text-align: center;
+      line-height: 1.45;
+      max-width: 28rem;
+      margin: -0.5rem auto 2rem;
+      opacity: 0.92;
+    }
+    .btn-personal-note {
+      display: inline-block;
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.25rem, 3.5vw, 1.55rem);
+      font-weight: 600;
+      color: var(--text-primary);
+      background: rgba(232, 184, 109, 0.1);
+      border: 1px dashed rgba(232, 184, 109, 0.45);
+      border-radius: 255px 12px 225px 15px / 12px 225px 15px 255px;
+      padding: 0.65rem 1.35rem;
+      cursor: pointer;
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+      line-height: 1.3;
+      text-align: center;
+    }
+    .btn-personal-note:hover {
+      transform: translateY(-2px) rotate(-0.4deg);
+      background: rgba(232, 184, 109, 0.16);
+      border-color: rgba(232, 184, 109, 0.6);
+    }
+    .btn-personal-note.teal {
+      color: var(--text-primary);
+      background: rgba(126, 196, 182, 0.08);
+      border-color: rgba(126, 196, 182, 0.35);
+    }
+    .btn-personal-note.teal:hover {
+      background: rgba(126, 196, 182, 0.14);
+      border-color: rgba(126, 196, 182, 0.5);
+    }
+    .btn-personal-note:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .memory-display {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.45rem, 4vw, 1.85rem);
+      color: var(--text-primary);
+      line-height: 1.45;
+      min-height: 4.5rem;
+    }
+    .gratitude-display {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+      color: var(--text-primary);
+      line-height: 1.5;
+      min-height: 3.5rem;
+    }
+    .gratitude-display.empty {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .breath-stage {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .breath-heart {
+      width: 52px;
+      height: 52px;
+      color: rgba(232, 184, 109, 0.75);
+      transition: transform 4s ease-in-out, opacity 0.5s ease;
+      margin-bottom: 0.25rem;
+    }
+    .breath-heart.inhale {
+      transform: scale(1.12);
+      color: rgba(232, 184, 109, 0.95);
+    }
+    .breath-heart.hold {
+      transform: scale(1.12);
+      color: rgba(232, 184, 109, 0.85);
+    }
+    .breath-heart.exhale {
+      transform: scale(1);
+      color: rgba(126, 196, 182, 0.75);
+    }
+    @keyframes heartPulse {
+      0%, 100% { opacity: 0.85; }
+      50% { opacity: 1; }
+    }
+    .breath-heart.inhale svg {
+      animation: heartPulse 2s ease-in-out infinite;
+    }
+    .breath-number {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(3.5rem, 12vw, 5rem);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--accent-amber);
+      letter-spacing: 0.02em;
+    }
+    .breath-status {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.35rem, 4vw, 1.75rem);
+      color: var(--accent-teal);
+      min-height: 1.75rem;
+      opacity: 0.9;
+    }
+    .breath-steps-hint {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    .breath-step-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      padding: 0.2rem 0.65rem;
+      border-radius: 255px 8px 225px 8px / 8px 225px 8px 255px;
+      border: 1px solid rgba(126, 196, 182, 0.15);
+      background: rgba(126, 196, 182, 0.04);
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+    }
+    .breath-step-label.active {
+      color: var(--accent-teal);
+      border-color: rgba(126, 196, 182, 0.35);
+      background: rgba(126, 196, 182, 0.1);
+    }
+    .breath-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .fade-text { transition: opacity 0.45s ease; }
+    .fade-text.fading { opacity: 0; }
+
+    /* Back to top */
+    .back-to-top {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.6rem 1rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      background: rgba(26, 34, 54, 0.92);
+      border: 1px solid rgba(232, 184, 109, 0.15);
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.35s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .back-to-top:hover {
+      color: var(--accent-amber);
+      border-color: rgba(232, 184, 109, 0.3);
+    }
+
+    /* Journey nav */
+    .journey-nav {
+      transform: translateY(-110%);
+      transition: transform 0.4s ease;
+      background: rgba(20, 28, 46, 0.95);
+      border: 1px solid rgba(232, 184, 109, 0.1);
+    }
+    .journey-nav.visible { transform: translateY(0); }
+    .journey-nav a {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+    .journey-nav a:hover { color: var(--accent-amber); }
+
+    /* Section headings */
+    .section-title {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(2.5rem, 7vw, 3.5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      text-align: center;
+    }
+    .section-subtitle {
+      font-family: 'Lora', Georgia, serif;
+      font-style: italic;
+      color: var(--text-muted);
+      text-align: center;
+      max-width: 32rem;
+      margin: 0.5rem auto 0;
+    }
+
+    .btn-soft {
+      font-family: 'Nunito', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid rgba(126, 196, 182, 0.3);
+      color: var(--accent-teal);
+      background: rgba(126, 196, 182, 0.08);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-soft:hover {
+      background: rgba(126, 196, 182, 0.15);
+    }
+
+    .appreciate-card {
+      transition: transform 0.3s ease;
+    }
+    .appreciate-card:hover {
+      transform: translateY(-3px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent-teal);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="font-body antialiased">
+  <div class="paper-bg" aria-hidden="true"></div>
+
+  <button id="music-toggle" class="fixed top-4 right-4 z-50 hidden items-center gap-2 px-3 py-2 rounded-lg text-sm text-[var(--text-muted)] border border-[rgba(232,184,109,0.15)] bg-[rgba(26,34,54,0.9)] hover:text-[var(--accent-amber)] transition-colors" aria-label="Toggle calm background music">
+    <svg class="w-4 h-4 music-icon-off" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+    <svg class="w-4 h-4 music-icon-on hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+    <span class="music-label">Music</span>
+  </button>
+  <audio id="ambient-audio" loop preload="none"><source src="audio/calm-ambient.mp3" type="audio/mpeg"></audio>
+
+  <nav id="journey-nav" class="journey-nav fixed top-0 left-0 right-0 z-40 mx-4 mt-3 max-w-3xl mx-auto rounded-lg px-4 py-2.5" aria-label="Journey sections">
+    <div class="flex flex-wrap justify-center gap-3 sm:gap-5">
+      <a href="#letter">Letter</a>
+      <a href="#gallery">Photos</a>
+      <a href="#memories">Memories</a>
+      <a href="#calm">Calm</a>
+      <a href="#appreciate">Appreciate</a>
+    </div>
+  </nav>
+
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+    back to top
+  </button>
+
+  <main>
+    <!-- ═══ HERO: SCRAPBOOK COVER ═══ -->
+    <section id="hero" class="hero-scrapbook" aria-labelledby="hero-title">
+      <div class="hero-polaroid polaroid relative">
+        <span class="tape tape-tl" aria-hidden="true"></span>
+        <span class="tape tape-tr" aria-hidden="true"></span>
+        <div class="photo-inner">
+          <img src="images/hero-photo.jpg" alt="Arriq and Dad together" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="photo-placeholder hidden" style="aspect-ratio:1; min-height:240px;">
+            <span style="font-family:Caveat,cursive; font-size:1.3rem; color:#8a7f72; text-align:center; padding:1rem;">Add hero-photo.jpg<br><small style="font-family:Lora,serif; font-size:0.75rem;">a photo of us</small></span>
+          </div>
+        </div>
+      </div>
+
+      <h1 id="hero-title" class="hero-title">Our Days</h1>
+      <p class="hero-subtitle">Our story &nbsp;•&nbsp; For the heavy days &nbsp;❤️</p>
+      <p class="hero-byline">made with endless love by Arriq</p>
+
+      <a href="#letter" class="btn-journey">
+        Begin the Journey
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </a>
+    </section>
+
+    <!-- ═══ PERSONAL LETTER ═══ -->
+    <section id="letter" class="px-5 py-16 max-w-2xl mx-auto reveal" aria-labelledby="letter-heading">
+      <h2 id="letter-heading" class="section-title mb-8">A Letter for You, Dad</h2>
+      <article class="letter-page scrap-card relative space-y-5 text-[var(--text-primary)]">
+        <p class="text-lg font-semibold">Dear Dad,</p>
+        <p>I know your work takes up much of your time lately, and honestly it's rewarding to me personally to see you as this hard of a worker. Even with the ups and downs of consistently taking calls and writing emails, reporting to meetings and helping out with trainings, you do so well.</p>
+        <p>I decided to make this for you, and us as a whole. Not because anything happened, or because I wanted something from you, but because I wanted somewhere for you to be able to go to reflect; not just on work or other things that can overwhelm you. It's just for us, full of some of my favorite memories and photos of you and I, things I don't say out loud enough. A place for you to explore, just to see how far you have come just being my father.</p>
+        <p>You have been the most important person in my life, and you haven't ever given up on trying for me and for us. When I was little and would freak out over stupid fears, you would always laugh at them, but you still would console me and help me with them. When I got stressed and talked a bunch about my friends or about school, you would listen. Whenever I was upset with something or at you, you still wouldn't hesitate to try and help, even with the consequences that came with it, whether they were on you or me. Most of the things I am good at were taught by you and encouraged by you. The things that I learned through the early years of being a kid to now were mainly from you. I mean, I wouldn't have been able to read this well if it weren't for all of the stories you would make me read and read to me. You were always by my side, you always are there; showing up to every little event that took place that was involved with me, always being my #1 supporter.</p>
+        <p>I'm fifteen now, and every year I understand a little bit more about what it means to be your son, what you sacrifice, and who you are as my father. I am so extremely proud, grateful, and overjoyed to be your son even when I don't show it, because at the end of the day we all know I'm not mature enough to be as grateful as I should be, but I still am as much as I can understand. I hope that you are able to scroll through this whenever you need to get away from something or just need a breather, whenever you need one.</p>
+        <p>I will make sure to update this as we get more photos, so it can forever stay updated and not feel like a relic.</p>
+        <p class="font-hand text-2xl text-[var(--accent-amber)] pt-2">Love you forever,<br>Arriq</p>
+      </article>
+    </section>
+
+    <!-- ═══ PHOTO TIMELINE JOURNEY ═══ -->
+    <section id="gallery" class="px-5 py-16 max-w-5xl mx-auto reveal" aria-labelledby="gallery-heading">
+      <h2 id="gallery-heading" class="section-title">Our Photo Book</h2>
+      <p class="section-subtitle mb-10">Flip through the pages; every photo has a note from me.</p>
+
+      <div class="flex flex-col sm:flex-row gap-3 mb-6 items-stretch sm:items-center">
+        <div class="flex flex-wrap gap-2" id="chapter-jumps" role="tablist" aria-label="Jump to chapter"></div>
+        <div class="relative flex-1 sm:max-w-xs sm:ml-auto">
+          <label for="photo-search" class="sr-only">Search photos</label>
+          <input type="search" id="photo-search" class="search-input" placeholder="Search our memories…">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+      </div>
+      <p id="photo-count" class="text-sm text-[var(--text-soft)] mb-8 text-center font-serif italic" aria-live="polite"></p>
+
+      <div id="photo-book" class="photobook" role="list"></div>
+
+      <div class="text-center mt-8 hidden">
+        <button id="load-more-btn" class="btn-journey text-lg hidden" style="font-size:1.25rem; padding:0.6rem 1.5rem;">
+          Discover more memories
+        </button>
+      </div>
+    </section>
+
+    <!-- ═══ RANDOM MEMORIES ═══ -->
+    <section id="memories" class="px-5 py-16 max-w-xl mx-auto reveal" aria-labelledby="memories-heading">
+      <h2 id="memories-heading" class="section-title mb-3">A Memory From Me</h2>
+      <p class="section-subtitle mb-8">Little moments I never want you to forget</p>
+      <div class="warm-moment-card scrap-card p-8 pt-10 text-center">
+        <p class="moment-eyebrow">From your son</p>
+        <p class="moment-intro">Some days get loud and busy. Tap below and I'll remind you of something good we shared.</p>
+        <button id="memory-btn" class="btn-personal-note mb-6" aria-label="Pull a random memory from Arriq">
+          Pull a memory from Arriq
+        </button>
+        <p id="memory-text" class="fade-text memory-display flex items-center justify-center" aria-live="polite">
+          I'm saving the good ones for you, Dad.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ CALM TOOLS ═══ -->
+    <section id="calm" class="px-5 py-16 max-w-3xl mx-auto reveal" aria-labelledby="calm-heading">
+      <h2 id="calm-heading" class="section-title mb-3">Let's Breathe Together</h2>
+      <p class="personal-note">I learned this because I know work gets heavy sometimes ❤️</p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="warm-moment-card scrap-card p-7 pt-9 flex flex-col items-center">
+          <p class="moment-eyebrow mb-1">Just us for a minute</p>
+          <h3 class="font-hand text-2xl text-[var(--accent-teal)] mb-2">Slow down with me</h3>
+          <p class="font-serif italic text-sm text-[var(--text-muted)] mb-5 text-center leading-relaxed">Breathe in for 4 · hold for 7 · out for 8. No rush.</p>
+          <div class="breath-stage">
+            <div id="breath-heart" class="breath-heart" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="52" height="52"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+            <span id="breath-count" class="breath-number" aria-live="polite">-</span>
+            <p id="breath-status" class="breath-status">Whenever you're ready, Dad</p>
+          </div>
+          <div class="breath-steps-hint" id="breath-steps" aria-hidden="true">
+            <span class="breath-step-label" data-step="0">4 in</span>
+            <span class="breath-step-label" data-step="1">7 hold</span>
+            <span class="breath-step-label" data-step="2">8 out</span>
+          </div>
+          <div class="breath-controls">
+            <button id="breath-start" class="btn-personal-note teal text-base">Let's start</button>
+            <button id="breath-pause" class="btn-personal-note teal text-base opacity-50" disabled>Take a break</button>
+            <button id="breath-reset" class="btn-personal-note teal text-base">Start over</button>
+          </div>
+        </div>
+        <div class="warm-moment-card scrap-card p-7 pt-9 flex flex-col items-center justify-center text-center">
+          <p class="moment-eyebrow mb-1">From your son</p>
+          <h3 class="font-hand text-2xl text-[var(--accent-amber)] mb-2">A Quick Reminder From Your Son</h3>
+          <p class="moment-intro mb-5">Things I think about you but don't always say out loud.</p>
+          <button id="gratitude-btn" class="btn-personal-note mb-5" aria-label="Show something Arriq loves about Dad">
+            Show me something Arriq loves about you
+          </button>
+          <p id="gratitude-text" class="fade-text gratitude-display empty flex items-center justify-center" aria-live="polite">Tap when you need to hear it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ APPRECIATION ═══ -->
+    <section id="appreciate" class="px-5 py-16 max-w-4xl mx-auto reveal" aria-labelledby="appreciate-heading">
+      <h2 id="appreciate-heading" class="section-title mb-10">Things I Appreciate About You</h2>
+      <div id="appreciate-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+    </section>
+
+    <footer class="px-5 py-14 text-center border-t border-[rgba(232,184,109,0.08)]">
+      <p class="font-hand text-2xl text-[var(--text-muted)] mb-1">Father's Day 2026 · Love you forever, Dad</p>
+      <p class="font-serif italic text-sm text-[var(--text-soft)]">Made for the best dad, Arriq</p>
+    </footer>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption" aria-hidden="true">
+    <button class="lightbox-nav prev" id="lightbox-prev" aria-label="Previous photo">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <button class="lightbox-nav next" id="lightbox-next" aria-label="Next photo">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <button id="lightbox-close" class="absolute top-4 right-4 w-10 h-10 rounded-lg flex items-center justify-center text-[var(--accent-amber)] border border-[rgba(232,184,109,0.2)] hover:bg-[rgba(232,184,109,0.1)] transition-colors" aria-label="Close">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="lightbox-img-wrap mb-4">
+      <img id="lightbox-img" src="" alt="">
+    </div>
+    <p id="lightbox-counter" class="text-sm text-[var(--text-soft)] mb-1 font-hand text-lg"></p>
+    <p id="lightbox-caption" class="font-hand text-2xl text-[var(--text-primary)] text-center max-w-xl"></p>
+    <p id="lightbox-year" class="font-hand text-xl text-[var(--accent-teal)] mt-1"></p>
+    <p id="lightbox-note" class="font-serif italic text-sm text-[var(--text-muted)] mt-2 max-w-md text-center"></p>
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════════════════════════════
+    // EDIT YOUR CONTENT BELOW
+    // category: 'early-years' | 'adventures' | 'everyday-love'
+    // ═══════════════════════════════════════════════════════════════════
+
+    const CHAPTERS = [
+      { id: 'early-years', label: 'Early Years', subtitle: 'When I was little and you were everything' },
+      { id: 'adventures', label: 'Adventures', subtitle: 'Trips, milestones, and big days together' },
+      { id: 'everyday-love', label: 'Everyday Love', subtitle: 'The quiet moments that mean the most' },
+    ];
+
+    const PHOTOS = [
+      // ── Early Years ──
+      { src: 'images/IMG_3921.jpg', caption: 'I remember your hugs the most, they always made me smile.', year: '2012', category: 'early-years', tall: true },
+      { src: 'images/IMG_6079.JPG', caption: 'I still am this tired!', year: '2013', category: 'early-years', note: 'You never moved until I was fully asleep.' },
+      { src: 'images/IMG_20150214_192034.jpg', caption: 'You have always been great at teaching me things.', year: '2015', category: 'early-years', tall: true },
+      { src: 'images/IMG_20150314_200205.jpg', caption: 'My good ol red and blue fishing rod that we got at Walmart.', year: '2015', category: 'early-years', note: 'I don\'t remember catching anything. I remember you being there.' },
+      { src: 'images/20160618_111907_HDR.jpg', caption: 'My handwriting has not gotten better yet!', year: '2016', category: 'early-years', tall: true },
+      { src: 'images/IMG_6069.JPG', caption: 'I love taking goofy pictures with you.', year: '2016', category: 'early-years' },
+      { src: 'images/IMG_6076.JPG', caption: 'I always have looked up to you, and will always.', year: '2017', category: 'early-years' },
+      { src: 'images/IMG_6077.JPG', caption: 'We use to tie-dye shirts, especially for this fathers day', year: '2017', category: 'early-years', tall: true },
+      { src: 'images/IMG_6078.JPG', caption: 'Look at us and our matching clothes and poses!', year: '2017', category: 'early-years', tall: true },
+      { src: 'images/IMG_6080.JPG', caption: 'I always copied you..', year: '2018', category: 'early-years' },
+      { src: 'images/IMG_6070.JPG', caption: 'You were always with me for everything', year: '2018', category: 'early-years', tall: true },
+      { src: 'images/IMG_6056.JPG', caption: 'Thanks for being my chaparone!', year: '2019', category: 'early-years', note: 'Still the best field trip!' },
+
+      // ── Adventures ──
+      { src: 'images/IMG_0295_Original.JPEG', caption: 'We would always find a boardwalk or some park to go to', year: '2019', category: 'adventures', tall: true },
+      { src: 'images/IMG_0769.JPEG', caption: 'The caves are still so cool to explore!', year: '2020', category: 'adventures', tall: true },
+      { src: 'images/IMG_2521.JPEG', caption: 'Still will never be able to float like you', year: '2020', category: 'adventures' },
+      { src: 'images/C8623477-9182-4B0C-9797-12274A90BB73.jpg', caption: 'Pretty sure I was terrified of the ocean', year: '2021', category: 'adventures', tall: true },
+      { src: 'images/BD3FA6A6-B420-4494-9177-24BE6BAB7990.jpg', caption: 'I loved this lagoon!', year: '2021', category: 'adventures' },
+      { src: 'images/214B7EC5-2A5F-485D-BBFE-4F503EDD2BE2.JPEG', caption: 'Best costume ever, always will be', year: '2021', category: 'adventures', tall: true },
+      { src: 'images/29A29B05-1D4F-4F13-A994-369A3951A399.JPEG', caption: 'Best Christmas tree ever!!!', year: '2021', category: 'adventures', note: '(Probably as tall as me)', tall: true },
+      { src: 'images/39145F2C-98F2-4C9C-BF64-E604CDBB3535.JPEG', caption: 'We would always look at the Christmas lights together', year: '2021', category: 'adventures', tall: true },
+      { src: 'images/DC33591B-58CB-454E-AA69-098BEE9A7C4C.JPEG', caption: 'Almost got eaten!!', year: '2022', category: 'adventures', tall: true },
+      { src: 'images/B0CBC396-BE3E-45E8-ABC3-27BBF6E382E6.JPEG', caption: 'This place was so beautiful, but terrifying to be up on', year: '2022', category: 'adventures', tall: true },
+      { src: 'images/BE658692-872F-4F32-B6E1-955F4639720A.JPEG', caption: 'The largest waterfall in Florida', year: '2022', category: 'adventures', tall: true },
+      { src: 'images/9C7ED58F-E067-41E8-91A5-184A055FEC13.JPEG', caption: 'You will always beat me at arcade games', year: '2022', category: 'adventures', tall: true },
+      { src: 'images/DE6FED64-54A8-4650-86C5-088051A728E8.jpg', caption: 'I definitely did not see this one coming...', year: '2023', category: 'adventures', tall: true },
+      { src: 'images/63356968-AA0B-4F9F-AAD4-BB47B64E62D3.jpeg', caption: 'I remember this photo really well!', year: '2023', category: 'adventures' },
+      { src: 'images/967B35C0-1A9E-405D-90B5-0AF06874BE79.jpeg', caption: 'Still have no idea how you made that..', year: '2024', category: 'adventures', tall: true },
+      { src: 'images/IMG_6050.JPG', caption: 'Even though I dont like sports, you made it so fun!', year: '2024', category: 'adventures', tall: true },
+      { src: 'images/84C6560C-072B-4FC8-B4B9-0423BC059536.JPG', caption: 'It was really fun watching them play with you', year: '2025', category: 'adventures', tall: true },
+      { src: 'images/119AE54E-867B-457F-A2E9-6A4BAC02987C.JPEG', caption: 'I secretly had so much fun watching those trucks, even though I didnt show it', year: '2025', category: 'adventures', tall: true },
+      { src: 'images/3F841D87-F103-4F08-94D1-871871D518C8.JPEG', caption: 'I have no idea how you wore a hoodie while we did this', year: '2025', category: 'adventures', tall: true },
+      { src: 'images/IMG_6051.JPG', caption: 'I love walking trails with you!', year: '2025', category: 'adventures', tall: true },
+      { src: 'images/7AB479C8-E3B3-4CF7-8F6F-E39B1643FB27.JPEG', caption: 'I remember wearing Sambas because you loved them', year: '2025', category: 'adventures', tall: true },
+
+      // ── Everyday Love ──
+      { src: 'images/FB_IMG_1487105491688.jpg', caption: 'You always had the best parties for me', year: 'Always', category: 'everyday-love', note: 'One of my favorite photos of us.', tall: true },
+      { src: 'images/DC9D306A-AE5A-4638-AD7D-AB311D045B6E.JPEG', caption: 'I was apparently being pretty bad...', year: '2024', category: 'everyday-love', tall: true },
+      { src: 'images/718896A5-C311-4614-84C8-6905E0AF544E.JPEG', caption: 'Its always fun to stay up late for new years with you', year: '2023', category: 'everyday-love', tall: true },
+      { src: 'images/6A38CB01-5222-4D23-96BF-1213F753EC0E.JPEG', caption: 'I love Hibachi!!', year: '2023', category: 'everyday-love' },
+      { src: 'images/IMG_6046.JPG', caption: 'I am almost as tall as you sir!', year: '2024', category: 'everyday-love', tall: true },
+      { src: 'images/IMG_6064.JPG', caption: 'Covid was rough, but you made it the best!', year: '2021', category: 'everyday-love', tall: true },
+    ];
+
+    const MEMORIES = [
+      'I always remember always trying to act and look like you, I even shaved my head to look like you',
+      'I remember always waiting in bed for you to tuck me in and read me a story.',
+      'I always compete to make you laugh, whether the joke is funny or not, you still laughed',
+      'I remember we would sometimes just drive around, trying to find something to do, and ended up finding a cool park',
+      'I will always remember the times you would bring me to the movies, the few times we have and end up talking about it for days',
+      'Every road trip I would always find some stupid game to keep up company, and it ended up making it go by so much faster',
+      'When I was nervous about a test and you said "You\'ve got this dude" like it was the simplest fact in the world. It gave me so much confidence.',
+      'The birthday surprise you planned for weeks, I would always try to get a secret I know you were keeping out of you, but you always would keep it one.',
+      'I could never stay still, and you still would find a way to help.',
+      'When you showed me how to fix something instead of doing it for me, taught me more than you think.',
+      'Game nights where you pretend you\'re not trying to win. We both know thats a lie. (even though you win most of the time)',
+      'Your advice always hit home, and I always listened to it, even if it looked like I wasn\'t listening',
+      'Sometimes just being nearby makes me feel so much better.',
+      'You always would show up to my school events, clubs and everything inbetween, I feel so extremely lucky for that, and especially grateful.',
+    ];
+
+    const APPRECIATION = [
+      'How hard you work for our family every single day, even when no one sees it',
+      'The way you always make time for me even when you\'re buried in emails and calls',
+      'Teaching me to be strong and kind at the same time, you try even though I suck at retaining it',
+      'Your patience when I mess up, and how you never gave up on me',
+      'The jokes you always made, that made me laugh everytime',
+      'Showing up ALWAYS; every game, every hard day, every boring Tuesday',
+      'How you listen when something actually matters to me',
+      'Being my anchor when everything else feels like a storm',
+      'Believing in me even when I don\'t believe in myself yet',
+      'Just being you, the best dad anyone could ever ask for',
+    ];
+
+    const APPRECIATION_ICONS = [
+      'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z',
+      'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z',
+      'M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z',
+      'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z',
+      'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
+      'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z',
+      'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
+      'M12 2l-2 4H6l3.5 3.5L8 14l4-2.5L16 14l-1.5-4.5L18 6h-4L12 2z',
+      'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z',
+      'M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17a1 1 0 001 1h1v3a1 1 0 001 1h2a1 1 0 001-1v-3h1a1 1 0 001-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z',
+    ];
+
+    // ═══════════════════════════════════════════════════════════════════
+    // PHOTO BOOK GALLERY
+    // ═══════════════════════════════════════════════════════════════════
+
+    const ROTATIONS = [-2.5, 1.5, -1, 2, -1.8, 1.2, 0.5, -2, 1.8];
+
+    let filteredPhotos = [];
+    let searchQuery = '';
+    let activeChapter = 'all';
+    let lightboxIndex = 0;
+    let lastMemoryIndex = -1;
+    let lastGratitudeIndex = -1;
+    let entryObserver = null;
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function getFilteredPhotos() {
+      return PHOTOS.filter((photo) => {
+        const q = searchQuery.toLowerCase();
+        const matchSearch = !q ||
+          photo.caption.toLowerCase().includes(q) ||
+          photo.year.includes(q) ||
+          (photo.note && photo.note.toLowerCase().includes(q));
+        const matchChapter = activeChapter === 'all' || photo.category === activeChapter;
+        return matchSearch && matchChapter;
+      });
+    }
+
+    function renderGallery() {
+      const container = document.getElementById('photo-book');
+      const loadMoreBtn = document.getElementById('load-more-btn');
+      const countEl = document.getElementById('photo-count');
+
+      filteredPhotos = getFilteredPhotos();
+      container.innerHTML = '';
+
+      if (filteredPhotos.length === 0) {
+        countEl.textContent = 'No memories match your search';
+        loadMoreBtn.classList.add('hidden');
+        return;
+      }
+
+      const chaptersToShow = activeChapter === 'all'
+        ? CHAPTERS
+        : CHAPTERS.filter((c) => c.id === activeChapter);
+
+      let photoIndex = 0;
+
+      chaptersToShow.forEach((chapter) => {
+        const chapterPhotos = filteredPhotos.filter((p) => p.category === chapter.id);
+        if (chapterPhotos.length === 0) return;
+
+        const page = document.createElement('div');
+        page.className = 'book-page reveal';
+        page.id = `chapter-${chapter.id}`;
+        page.setAttribute('role', 'listitem');
+
+        page.innerHTML = `
+          <div class="book-chapter-head">
+            <h3 class="chapter-title">${escapeHtml(chapter.label)}</h3>
+            <p class="chapter-subtitle">${escapeHtml(chapter.subtitle)}</p>
+          </div>
+          <div class="book-spread"></div>
+        `;
+
+        const spread = page.querySelector('.book-spread');
+
+        chapterPhotos.forEach((photo) => {
+          const globalIdx = filteredPhotos.indexOf(photo);
+          spread.appendChild(createPolaroidCard(photo, globalIdx, photoIndex));
+          photoIndex++;
+        });
+
+        container.appendChild(page);
+        observeReveal(page);
+        page.querySelectorAll('.book-photo-wrap').forEach(observeReveal);
+      });
+
+      countEl.textContent = `${filteredPhotos.length} memories across ${chaptersToShow.filter((c) => filteredPhotos.some((p) => p.category === c.id)).length} chapter${filteredPhotos.length === 1 ? '' : 's'}`;
+      loadMoreBtn.classList.add('hidden');
+    }
+
+    function createPolaroidCard(photo, globalIndex, layoutIndex) {
+      const wrap = document.createElement('div');
+      wrap.className = 'book-photo-wrap reveal-photo';
+      wrap.style.setProperty('--rotate', `${ROTATIONS[layoutIndex % ROTATIONS.length]}deg`);
+      wrap.style.transitionDelay = `${(layoutIndex % 6) * 0.07}s`;
+
+      const noteHtml = photo.note
+        ? `<p class="polaroid-note">${escapeHtml(photo.note)}</p>`
+        : '';
+
+      wrap.innerHTML = `
+        <article class="polaroid relative" tabindex="0" role="button" aria-label="View photo: ${escapeHtml(photo.caption)}">
+          <span class="tape tape-tl" aria-hidden="true"></span>
+          <div class="photo-inner">
+            <span class="polaroid-year">${escapeHtml(photo.year)}</span>
+            <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.caption)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;" aria-hidden="true">
+              <span style="font-family:Caveat,cursive;font-size:1.1rem;color:#8a7f72;">photo missing</span>
+            </div>
+          </div>
+          <p class="polaroid-caption">${escapeHtml(photo.caption)}</p>
+          ${noteHtml}
+        </article>
+      `;
+
+      const polaroid = wrap.querySelector('.polaroid');
+      polaroid.addEventListener('click', () => openLightbox(globalIndex));
+      polaroid.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(globalIndex);
+        }
+      });
+
+      return wrap;
+    }
+
+    function observeReveal(el) {
+      if (!entryObserver) {
+        el.classList.add('visible');
+        return;
+      }
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.classList.add('visible');
+        return;
+      }
+      entryObserver.observe(el);
+    }
+
+    function initChapterJumps() {
+      const container = document.getElementById('chapter-jumps');
+      const allBtn = document.createElement('button');
+      allBtn.className = 'chapter-jump active';
+      allBtn.textContent = 'All';
+      allBtn.dataset.chapter = 'all';
+      allBtn.addEventListener('click', () => setChapter('all', container));
+      container.appendChild(allBtn);
+
+      CHAPTERS.forEach((ch) => {
+        const btn = document.createElement('button');
+        btn.className = 'chapter-jump';
+        btn.textContent = ch.label;
+        btn.dataset.chapter = ch.id;
+        btn.addEventListener('click', () => setChapter(ch.id, container));
+        container.appendChild(btn);
+      });
+    }
+
+    function setChapter(id, container) {
+      activeChapter = id;
+      container.querySelectorAll('.chapter-jump').forEach((b) => {
+        b.classList.toggle('active', b.dataset.chapter === id);
+      });
+      renderGallery();
+      if (id !== 'all') {
+        const page = document.getElementById(`chapter-${id}`);
+        if (page) page.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // LIGHTBOX
+    // ═══════════════════════════════════════════════════════════════════
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    function openLightbox(index) {
+      lightboxIndex = index;
+      updateLightboxContent();
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('lightbox-close').focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function updateLightboxContent() {
+      const photo = filteredPhotos[lightboxIndex];
+      if (!photo) return;
+      lightboxImg.style.opacity = '0';
+      lightboxImg.onload = () => { lightboxImg.style.opacity = '1'; };
+      lightboxImg.src = photo.src;
+      lightboxImg.alt = photo.caption;
+      document.getElementById('lightbox-caption').textContent = photo.caption;
+      document.getElementById('lightbox-year').textContent = photo.year;
+      const noteEl = document.getElementById('lightbox-note');
+      noteEl.textContent = photo.note || '';
+      noteEl.style.display = photo.note ? 'block' : 'none';
+      document.getElementById('lightbox-counter').textContent = `${lightboxIndex + 1} of ${filteredPhotos.length}`;
+    }
+
+    function navigateLightbox(dir) {
+      lightboxIndex = (lightboxIndex + dir + filteredPhotos.length) % filteredPhotos.length;
+      updateLightboxContent();
+    }
+
+    document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
+    document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
+
+    // ═══════════════════════════════════════════════════════════════════
+    // MEMORIES, GRATITUDE, BREATHING
+    // ═══════════════════════════════════════════════════════════════════
+
+    function pullRandomMemory() {
+      const el = document.getElementById('memory-text');
+      el.classList.add('fading');
+      setTimeout(() => {
+        let idx;
+        do { idx = Math.floor(Math.random() * MEMORIES.length); } while (idx === lastMemoryIndex && MEMORIES.length > 1);
+        lastMemoryIndex = idx;
+        el.textContent = MEMORIES[idx];
+        el.classList.remove('fading');
+      }, 450);
+    }
+
+    function showGratitude() {
+      const el = document.getElementById('gratitude-text');
+      el.classList.add('fading');
+      setTimeout(() => {
+        let idx;
+        do { idx = Math.floor(Math.random() * APPRECIATION.length); } while (idx === lastGratitudeIndex && APPRECIATION.length > 1);
+        lastGratitudeIndex = idx;
+        el.textContent = APPRECIATION[idx];
+        el.classList.remove('fading', 'empty');
+      }, 450);
+    }
+
+    document.getElementById('memory-btn').addEventListener('click', pullRandomMemory);
+    document.getElementById('gratitude-btn').addEventListener('click', showGratitude);
+
+    const BREATH_PHASES = [
+      { duration: 4, label: 'Breathe in with me…', class: 'inhale', step: 0 },
+      { duration: 7, label: 'Hold it, you\'ve got this…', class: 'hold', step: 1 },
+      { duration: 8, label: 'Let it all go…', class: 'exhale', step: 2 },
+      { duration: 2, label: 'Nice. One more when you\'re ready.', class: '', step: -1 },
+    ];
+    let breathRunning = false, breathPaused = false, breathPhaseIndex = 0, breathTimeLeft = 0, breathInterval = null;
+    const breathHeart = document.getElementById('breath-heart');
+    const breathCount = document.getElementById('breath-count');
+    const breathStatus = document.getElementById('breath-status');
+    const breathSteps = document.getElementById('breath-steps');
+    const breathPauseBtn = document.getElementById('breath-pause');
+
+    function updateBreathUI() {
+      const phase = BREATH_PHASES[breathPhaseIndex];
+      breathCount.textContent = breathTimeLeft;
+      breathStatus.textContent = phase.label;
+      breathHeart.className = 'breath-heart ' + phase.class;
+      breathSteps.querySelectorAll('.breath-step-label').forEach((label) => {
+        const step = Number(label.dataset.step);
+        label.classList.toggle('active', step === phase.step);
+      });
+    }
+
+    function breathTick() {
+      if (breathPaused) return;
+      breathTimeLeft--;
+      if (breathTimeLeft <= 0) {
+        breathPhaseIndex = (breathPhaseIndex + 1) % BREATH_PHASES.length;
+        breathTimeLeft = BREATH_PHASES[breathPhaseIndex].duration;
+      }
+      updateBreathUI();
+    }
+
+    document.getElementById('breath-start').addEventListener('click', () => {
+      if (breathRunning && !breathPaused) return;
+      if (breathPaused) {
+        breathPaused = false;
+        breathPauseBtn.textContent = 'Take a break';
+        return;
+      }
+      breathRunning = true;
+      breathPhaseIndex = 0;
+      breathTimeLeft = BREATH_PHASES[0].duration;
+      updateBreathUI();
+      breathInterval = setInterval(breathTick, 1000);
+      breathPauseBtn.disabled = false;
+      breathPauseBtn.classList.remove('opacity-50');
+    });
+
+    breathPauseBtn.addEventListener('click', () => {
+      if (!breathRunning) return;
+      breathPaused = !breathPaused;
+      breathPauseBtn.textContent = breathPaused ? 'Keep going' : 'Take a break';
+    });
+
+    document.getElementById('breath-reset').addEventListener('click', () => {
+      breathRunning = false;
+      breathPaused = false;
+      clearInterval(breathInterval);
+      breathHeart.className = 'breath-heart';
+      breathCount.textContent = '—';
+      breathStatus.textContent = 'Whenever you\'re ready, Dad';
+      breathSteps.querySelectorAll('.breath-step-label').forEach((label) => {
+        label.classList.remove('active');
+      });
+      breathPauseBtn.textContent = 'Take a break';
+      breathPauseBtn.disabled = true;
+      breathPauseBtn.classList.add('opacity-50');
+    });
+
+    // ═══════════════════════════════════════════════════════════════════
+    // APPRECIATION
+    // ═══════════════════════════════════════════════════════════════════
+
+    function renderAppreciation() {
+      const grid = document.getElementById('appreciate-grid');
+      grid.innerHTML = '';
+      APPRECIATION.forEach((text, i) => {
+        const card = document.createElement('div');
+        card.className = 'appreciate-card scrap-card p-5 flex gap-3 items-start reveal';
+        card.style.transitionDelay = `${(i % 6) * 0.06}s`;
+        card.innerHTML = `
+          <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-[rgba(126,196,182,0.12)] flex items-center justify-center">
+            <svg class="w-4 h-4 text-[var(--accent-teal)]" fill="currentColor" viewBox="0 0 24 24"><path d="${APPRECIATION_ICONS[i % APPRECIATION_ICONS.length]}"/></svg>
+          </div>
+          <p class="font-hand text-lg text-[var(--text-primary)] leading-snug">${escapeHtml(text)}</p>
+        `;
+        grid.appendChild(card);
+        observeReveal(card);
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // SCROLL REVEAL, NAV, BACK TO TOP, MUSIC
+    // ═══════════════════════════════════════════════════════════════════
+
+    function initScrollReveal() {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      entryObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
+      document.querySelectorAll('.reveal').forEach((el) => {
+        if (reduced) {
+          el.classList.add('visible');
+        } else {
+          entryObserver.observe(el);
+        }
+      });
+    }
+
+    function initJourneyNav() {
+      const nav = document.getElementById('journey-nav');
+      new IntersectionObserver(([e]) => {
+        nav.classList.toggle('visible', !e.isIntersecting);
+      }, { threshold: 0.1 }).observe(document.getElementById('hero'));
+    }
+
+    function initBackToTop() {
+      const btn = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        btn.classList.toggle('visible', window.scrollY > 600);
+      }, { passive: true });
+      btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    function initMusicToggle() {
+      const audio = document.getElementById('ambient-audio');
+      const toggle = document.getElementById('music-toggle');
+      const iconOff = toggle.querySelector('.music-icon-off');
+      const iconOn = toggle.querySelector('.music-icon-on');
+      const label = toggle.querySelector('.music-label');
+      audio.volume = 0.3;
+      audio.addEventListener('canplaythrough', () => {
+        toggle.classList.remove('hidden');
+        toggle.classList.add('flex');
+        if (localStorage.getItem('our-days-music') === 'on') {
+          audio.play().catch(() => {});
+          iconOff.classList.add('hidden');
+          iconOn.classList.remove('hidden');
+          label.textContent = 'On';
+        }
+      });
+      audio.addEventListener('error', () => { toggle.classList.add('hidden'); });
+      audio.load();
+      toggle.addEventListener('click', () => {
+        if (audio.paused) {
+          audio.play().catch(() => {});
+          iconOff.classList.add('hidden'); iconOn.classList.remove('hidden');
+          label.textContent = 'On';
+          localStorage.setItem('our-days-music', 'on');
+        } else {
+          audio.pause();
+          iconOff.classList.remove('hidden'); iconOn.classList.add('hidden');
+          label.textContent = 'Music';
+          localStorage.setItem('our-days-music', 'off');
+        }
+      });
+    }
+
+    let searchTimeout;
+    document.getElementById('photo-search').addEventListener('input', (e) => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchQuery = e.target.value.trim();
+        renderGallery();
+      }, 200);
+    });
+
+    // INIT - scroll observer must exist before gallery renders
+    initScrollReveal();
+    initChapterJumps();
+    renderGallery();
+    renderAppreciation();
+    initJourneyNav();
+    initBackToTop();
+    initMusicToggle();
+  </script>
+</body>
+</html>
