@@ -284,6 +284,7 @@
 
     .btn-chip {
       min-height: 40px;
+      min-width: 4.75rem;
       padding: 0.35rem 0.95rem;
       font-size: 1.1rem;
       font-weight: 500;
@@ -512,17 +513,6 @@
       width: 100%;
       max-width: 300px;
       align-self: start;
-      opacity: 1;
-      transform: translateY(0);
-      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .book-photo-wrap.reveal-photo {
-      opacity: 0;
-      transform: translateY(22px) rotate(var(--rotate, 0deg));
-    }
-    .book-photo-wrap.reveal-photo.visible {
-      opacity: 1;
-      transform: translateY(0) rotate(var(--rotate, 0deg));
     }
 
     .chapter-title {
@@ -571,11 +561,63 @@
     }
     .polaroid .photo-inner {
       overflow: hidden;
-      background: #e8e0d4;
+      background:
+        linear-gradient(180deg, rgba(232,184,109,0.12), rgba(232,184,109,0.02)),
+        #e8e0d4;
       position: relative;
       line-height: 0;
       flex-shrink: 0;
-      min-height: 10rem;
+      min-height: 12rem;
+      isolation: isolate;
+    }
+    .polaroid .photo-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='4' height='4' fill='%23cfc6b8'/%3E%3Crect width='1' height='1' fill='%23a89f90'/%3E%3Crect x='2' y='2' width='1' height='1' fill='%23a89f90'/%3E%3C/svg%3E");
+      background-size: 4px 4px;
+      opacity: 0.45;
+      pointer-events: none;
+    }
+    .photo-inner img.photo-materialize-target {
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      will-change: clip-path, opacity;
+      clip-path: inset(0 0 100% 0);
+    }
+    .photo-inner.is-ready img.photo-materialize-target {
+      opacity: 1;
+    }
+    .photo-inner.is-done img.photo-materialize-target {
+      clip-path: inset(0 0 0 0);
+      opacity: 1;
+    }
+    .photo-particle-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .photo-inner.is-waiting::after {
+      content: '';
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 42%;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(232,184,109,0.55), transparent);
+      animation: receivePulse 1.4s ease-in-out infinite;
+      z-index: 2;
+    }
+    @keyframes receivePulse {
+      0%, 100% { opacity: 0.25; transform: scaleX(0.7); }
+      50% { opacity: 0.9; transform: scaleX(1); }
     }
 
     .polaroid-year {
@@ -981,103 +1023,6 @@
     }
     #music-toggle.hidden { display: none !important; }
 
-    /* Experience sheet */
-    .feel-sheet-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 60;
-      background: rgba(8, 12, 22, 0.45);
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-    .feel-sheet-backdrop.open {
-      opacity: 1;
-      visibility: visible;
-    }
-    .feel-sheet {
-      position: fixed;
-      z-index: 61;
-      left: max(1rem, env(safe-area-inset-left));
-      right: max(1rem, env(safe-area-inset-right));
-      bottom: max(1rem, env(safe-area-inset-bottom));
-      max-width: 22rem;
-      margin: 0 auto;
-      padding: 1.35rem 1.25rem 1.2rem;
-      transform: translateY(24px) scale(0.98);
-      opacity: 0;
-      visibility: hidden;
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease, visibility 0.35s ease;
-    }
-    .feel-sheet.open {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-      visibility: visible;
-    }
-    @media (min-width: 640px) {
-      .feel-sheet {
-        left: max(1.25rem, env(safe-area-inset-left));
-        right: auto;
-        bottom: max(1.5rem, env(safe-area-inset-bottom));
-        margin: 0;
-      }
-    }
-    .feel-sheet h2 {
-      font-family: 'Caveat', cursive;
-      font-size: 1.85rem;
-      color: var(--text-primary);
-      margin: 0 0 0.15rem;
-    }
-    .feel-sheet-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 0.75rem;
-      margin-bottom: 0.35rem;
-    }
-    .feel-close {
-      min-height: 40px;
-      min-width: 40px;
-      padding: 0;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-    .feel-sheet .feel-sub {
-      font-family: 'Lora', Georgia, serif;
-      font-style: italic;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin: 0 0 0.85rem;
-    }
-    .feel-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.75rem;
-      padding: 0.65rem 0;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-    .feel-row:first-of-type { border-top: none; }
-    .feel-label {
-      font-family: 'Caveat', cursive;
-      font-size: 1.25rem;
-      color: var(--text-primary);
-    }
-    .feel-hint {
-      display: block;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.7rem;
-      color: var(--text-soft);
-      margin-top: 0.1rem;
-    }
-    .feel-dither-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      justify-content: flex-end;
-      max-width: 13rem;
-    }
-
     /* Hidden iOS haptic switch */
     .ios-haptic-switch {
       position: fixed;
@@ -1191,25 +1136,6 @@
         width: 100%;
       }
 
-      .feel-row {
-        align-items: flex-start;
-        gap: 0.65rem;
-      }
-      .feel-row .btn-chip {
-        min-width: 3.5rem;
-      }
-      .feel-dither-group {
-        max-width: none;
-        width: 100%;
-        justify-content: flex-start;
-      }
-      .feel-dither-group .btn {
-        flex: 1 1 calc(25% - 0.35rem);
-        min-width: 0;
-        padding-left: 0.4rem;
-        padding-right: 0.4rem;
-      }
-
       .lightbox {
         padding:
           calc(1rem + env(safe-area-inset-top))
@@ -1259,6 +1185,11 @@
       html { scroll-behavior: auto; }
       .metal-btn, .btn-primary, .hero-title { animation: none !important; }
       .metal-btn::after, .btn-primary::after { display: none; }
+      .photo-inner img.photo-materialize-target {
+        opacity: 1 !important;
+        clip-path: none !important;
+      }
+      .photo-inner.is-waiting::after { display: none; }
     }
 
     :focus-visible {
@@ -1268,17 +1199,13 @@
 
   </style>
 </head>
-<body class="font-body antialiased dither-off">
+<body class="font-body antialiased dither-print">
   <div class="paper-bg" aria-hidden="true"></div>
   <div class="dither-veil" aria-hidden="true"></div>
 
   <input type="checkbox" class="ios-haptic-switch" id="ios-haptic-switch" switch aria-hidden="true" tabindex="-1">
 
   <div class="chrome-cluster">
-    <button id="feel-toggle" class="btn btn-chrome" aria-expanded="false" aria-controls="feel-sheet" aria-label="Open feel settings">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-      Feel
-    </button>
     <button id="music-toggle" class="btn btn-chrome hidden" aria-label="Toggle calm background music">
       <svg class="w-4 h-4 music-icon-off" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
       <svg class="w-4 h-4 music-icon-on hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
@@ -1286,43 +1213,6 @@
     </button>
   </div>
   <audio id="ambient-audio" loop preload="none"><source src="audio/calm-ambient.mp3" type="audio/mpeg"></audio>
-
-  <div id="feel-backdrop" class="feel-sheet-backdrop" hidden></div>
-  <div id="feel-sheet" class="feel-sheet glass-panel" role="dialog" aria-modal="true" aria-labelledby="feel-heading" hidden>
-    <div class="feel-sheet-head">
-      <div>
-        <h2 id="feel-heading">How it feels</h2>
-        <p class="feel-sub">Little dials for sound, touch, and look</p>
-      </div>
-      <button type="button" id="feel-close" class="btn btn-chrome feel-close" aria-label="Close feel settings">✕</button>
-    </div>
-    <div class="feel-row">
-      <div>
-        <span class="feel-label">Sound</span>
-        <span class="feel-hint">Soft taps &amp; paper tones</span>
-      </div>
-      <button type="button" id="pref-sound" class="btn btn-chip" aria-pressed="true">On</button>
-    </div>
-    <div class="feel-row">
-      <div>
-        <span class="feel-label">Haptics</span>
-        <span class="feel-hint">Gentle pulses when supported</span>
-      </div>
-      <button type="button" id="pref-haptics" class="btn btn-chip" aria-pressed="true">On</button>
-    </div>
-    <div class="feel-row">
-      <div>
-        <span class="feel-label">Dither</span>
-        <span class="feel-hint">Print &amp; art atmosphere</span>
-      </div>
-      <div class="feel-dither-group" role="group" aria-label="Dither look">
-        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="off">Off</button>
-        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="soft">Soft</button>
-        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="print">Print</button>
-        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="art">Art</button>
-      </div>
-    </div>
-  </div>
 
   <nav id="journey-nav" class="journey-nav glass-panel fixed z-40" aria-label="Journey sections">
     <div class="journey-nav-links">
@@ -1344,8 +1234,8 @@
       <div class="hero-polaroid polaroid relative">
         <span class="tape tape-tl" aria-hidden="true"></span>
         <span class="tape tape-tr" aria-hidden="true"></span>
-        <div class="photo-inner">
-          <img id="hero-photo" src="images/hero-photo.jpg" alt="Arriq and Dad together" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="photo-inner is-waiting">
+          <img id="hero-photo" class="photo-materialize-target" src="images/hero-photo.jpg" alt="Arriq and Dad together" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="photo-placeholder hidden" style="aspect-ratio:1; min-height:240px;">
             <span style="font-family:Caveat,cursive; font-size:1.3rem; color:#8a7f72; text-align:center; padding:1rem;">Add hero-photo.jpg<br><small style="font-family:Lora,serif; font-size:0.75rem;">a photo of us</small></span>
           </div>
@@ -1586,10 +1476,15 @@
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const prefs = {
-      sound: localStorage.getItem('our-days-sound') !== 'off',
-      haptics: localStorage.getItem('our-days-haptics') !== 'off',
-      dither: localStorage.getItem('our-days-dither') || 'soft',
+      sound: true,
+      haptics: true,
+      dither: 'print',
     };
+    localStorage.setItem('our-days-dither', 'print');
+    localStorage.setItem('our-days-sound', 'on');
+    localStorage.setItem('our-days-haptics', 'on');
+    document.body.classList.remove('dither-off', 'dither-soft', 'dither-art');
+    document.body.classList.add('dither-print');
 
     const SoundFx = (() => {
       let ctx = null;
@@ -1670,9 +1565,7 @@
         const arr = Array.isArray(pattern) ? pattern : [pattern];
         let delay = 0;
         arr.forEach((ms, i) => {
-          if (i % 2 === 0) {
-            setTimeout(iosTick, delay);
-          }
+          if (i % 2 === 0) setTimeout(iosTick, delay);
           delay += typeof ms === 'number' ? ms : 12;
         });
       }
@@ -1684,169 +1577,254 @@
       };
     })();
 
-    const BAYER_4 = [
-      [0, 8, 2, 10],
-      [12, 4, 14, 6],
-      [3, 11, 1, 9],
-      [15, 7, 13, 5],
-    ];
-    let heroDitherOriginal = null;
-    let heroDitherBusy = false;
+    // Photos materialize top→bottom with dither particles expelled at the wipe edge
+    const PhotoMaterializer = (() => {
+      const COLORS = [
+        [232, 184, 109],
+        [245, 236, 214],
+        [18, 24, 40],
+        [126, 196, 182],
+        [200, 160, 120],
+      ];
+      let photoObserver = null;
+      let activeCount = 0;
+      const MAX_ACTIVE = 4;
 
-    function restoreHeroPhoto() {
-      const img = document.getElementById('hero-photo');
-      if (!img || !heroDitherOriginal) return;
-      if (img.dataset.dithered === '1') {
-        img.src = heroDitherOriginal;
-        delete img.dataset.dithered;
+      function ensureObserver() {
+        if (photoObserver) return photoObserver;
+        photoObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const wrap = entry.target;
+            photoObserver.unobserve(wrap);
+            queueMaterialize(wrap);
+          });
+        }, { threshold: 0.01, rootMargin: '160px 0px' });
+        return photoObserver;
       }
-    }
 
-    function bakeHeroDither() {
-      const img = document.getElementById('hero-photo');
-      if (!img || heroDitherBusy || reducedMotion) return;
-      if (!img.complete || !img.naturalWidth) {
-        img.addEventListener('load', () => bakeHeroDither(), { once: true });
-        return;
+      const waitQueue = [];
+      function queueMaterialize(wrap) {
+        if (wrap.dataset.materialized === '1' || wrap.dataset.materializing === '1') return;
+        if (activeCount >= MAX_ACTIVE) {
+          waitQueue.push(wrap);
+          return;
+        }
+        runMaterialize(wrap);
       }
-      if (img.dataset.dithered === '1') return;
-      heroDitherBusy = true;
-      try {
-        if (!heroDitherOriginal) heroDitherOriginal = img.currentSrc || img.src;
-        const maxW = 560;
-        const scale = Math.min(1, maxW / img.naturalWidth);
-        const w = Math.max(1, Math.round(img.naturalWidth * scale));
-        const h = Math.max(1, Math.round(img.naturalHeight * scale));
+
+      function drainQueue() {
+        while (waitQueue.length && activeCount < MAX_ACTIVE) {
+          runMaterialize(waitQueue.shift());
+        }
+      }
+
+      function runMaterialize(wrap) {
+        const inner = wrap.querySelector('.photo-inner');
+        const img = wrap.querySelector('img.photo-materialize-target');
+        if (!inner || !img) {
+          wrap.classList.add('visible');
+          return;
+        }
+        wrap.dataset.materializing = '1';
+        inner.classList.add('is-waiting');
+        activeCount++;
+        let started = false;
+
+        const finishEarly = () => {
+          if (wrap.dataset.materialized === '1') return;
+          inner.classList.remove('is-waiting');
+          inner.classList.add('is-ready', 'is-done');
+          img.style.clipPath = 'inset(0 0 0 0)';
+          img.style.opacity = '1';
+          wrap.dataset.materialized = '1';
+          delete wrap.dataset.materializing;
+          activeCount = Math.max(0, activeCount - 1);
+          drainQueue();
+        };
+
+        const startWipe = () => {
+          if (started || wrap.dataset.materialized === '1') return;
+          started = true;
+          inner.classList.remove('is-waiting');
+          inner.classList.add('is-ready');
+          if (reducedMotion) {
+            finishEarly();
+            return;
+          }
+          animateWipe(inner, img, () => {
+            wrap.dataset.materialized = '1';
+            delete wrap.dataset.materializing;
+            activeCount = Math.max(0, activeCount - 1);
+            drainQueue();
+          });
+        };
+
+        if (img.complete && img.naturalWidth > 0) {
+          startWipe();
+        } else {
+          // Kick load if still deferred
+          if (img.loading === 'lazy') {
+            try { img.loading = 'eager'; } catch (_) {}
+          }
+          const onOk = () => startWipe();
+          const onErr = () => {
+            img.style.display = 'none';
+            const ph = inner.querySelector('.photo-placeholder');
+            if (ph) ph.style.display = 'flex';
+            finishEarly();
+          };
+          img.addEventListener('load', onOk, { once: true });
+          img.addEventListener('error', onErr, { once: true });
+          // Failsafe: don't leave mobile stuck waiting forever
+          setTimeout(() => {
+            if (wrap.dataset.materialized === '1') return;
+            if (img.complete && img.naturalWidth > 0) startWipe();
+            else finishEarly();
+          }, 5000);
+        }
+      }
+
+      function animateWipe(inner, img, done) {
         const canvas = document.createElement('canvas');
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
-        if (!ctx) return;
-        ctx.drawImage(img, 0, 0, w, h);
-        const frame = ctx.getImageData(0, 0, w, h);
-        const d = frame.data;
-        const palette = [
-          [16, 22, 38],
-          [72, 58, 48],
-          [148, 112, 78],
-          [220, 178, 118],
-          [245, 236, 214],
-        ];
-        for (let y = 0; y < h; y++) {
-          for (let x = 0; x < w; x++) {
-            const i = (y * w + x) * 4;
-            const lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-            const bias = (BAYER_4[y & 3][x & 3] / 16) - 0.5;
-            let level = Math.round((lum / 255) * (palette.length - 1) + bias);
-            if (level < 0) level = 0;
-            if (level > palette.length - 1) level = palette.length - 1;
-            const [r, g, b] = palette[level];
-            // Keep a whisper of original color so faces stay personal
-            d[i] = Math.round(r * 0.82 + d[i] * 0.18);
-            d[i + 1] = Math.round(g * 0.82 + d[i + 1] * 0.18);
-            d[i + 2] = Math.round(b * 0.82 + d[i + 2] * 0.18);
+        canvas.className = 'photo-particle-layer';
+        inner.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const resize = () => {
+          const w = inner.clientWidth || 1;
+          const h = inner.clientHeight || 1;
+          canvas.width = Math.floor(w * dpr);
+          canvas.height = Math.floor(h * dpr);
+          canvas.style.width = w + 'px';
+          canvas.style.height = h + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        };
+        resize();
+
+        const particles = [];
+        const duration = 1100;
+        const t0 = performance.now();
+        let lastSpawn = 0;
+
+        function spawnAt(y, w, h, now) {
+          if (now - lastSpawn < 16) return;
+          lastSpawn = now;
+          const count = 5 + Math.floor(Math.random() * 6);
+          for (let i = 0; i < count; i++) {
+            const color = COLORS[(Math.random() * COLORS.length) | 0];
+            particles.push({
+              x: Math.random() * w,
+              y,
+              vx: (Math.random() - 0.5) * 2.4,
+              vy: -0.6 - Math.random() * 2.2,
+              size: 1.5 + Math.random() * 2.8,
+              life: 1,
+              decay: 0.018 + Math.random() * 0.02,
+              color,
+            });
           }
         }
-        ctx.putImageData(frame, 0, 0);
-        img.src = canvas.toDataURL('image/png');
-        img.dataset.dithered = '1';
-      } catch (_) {
-        /* CORS / canvas taint — CSS art mode still applies */
-      } finally {
-        heroDitherBusy = false;
-      }
-    }
 
-    function setDither(mode) {
-      const allowed = ['off', 'soft', 'print', 'art'];
-      if (!allowed.includes(mode)) mode = 'soft';
-      prefs.dither = mode;
-      document.body.classList.remove('dither-off', 'dither-soft', 'dither-print', 'dither-art');
-      document.body.classList.add(`dither-${mode}`);
-      localStorage.setItem('our-days-dither', mode);
-      document.querySelectorAll('.feel-dither-btn').forEach((btn) => {
-        btn.classList.toggle('active', btn.dataset.dither === mode);
-      });
-      if (mode === 'art') bakeHeroDither();
-      else restoreHeroPhoto();
-    }
+        function frame(now) {
+          const w = inner.clientWidth || 1;
+          const h = inner.clientHeight || 1;
+          const t = Math.min(1, (now - t0) / duration);
+          const ease = 1 - Math.pow(1 - t, 3);
+          const wipe = ease * 100;
+          img.style.clipPath = `inset(0 0 ${100 - wipe}% 0)`;
+          img.style.opacity = '1';
 
-    function syncToggle(btn, on) {
-      btn.classList.toggle('on', on);
-      btn.classList.toggle('active', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      btn.textContent = on ? 'On' : 'Off';
-    }
-
-    function initFeelPanel() {
-      const toggle = document.getElementById('feel-toggle');
-      const sheet = document.getElementById('feel-sheet');
-      const backdrop = document.getElementById('feel-backdrop');
-      const closeBtn = document.getElementById('feel-close');
-      const soundBtn = document.getElementById('pref-sound');
-      const hapBtn = document.getElementById('pref-haptics');
-
-      syncToggle(soundBtn, prefs.sound);
-      syncToggle(hapBtn, prefs.haptics);
-      setDither(prefs.dither);
-
-      function openSheet() {
-        sheet.hidden = false;
-        backdrop.hidden = false;
-        requestAnimationFrame(() => {
-          sheet.classList.add('open');
-          backdrop.classList.add('open');
-        });
-        toggle.setAttribute('aria-expanded', 'true');
-        SoundFx.glass();
-        Haptics.light();
-      }
-      function closeSheet() {
-        sheet.classList.remove('open');
-        backdrop.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        setTimeout(() => {
-          if (!sheet.classList.contains('open')) {
-            sheet.hidden = true;
-            backdrop.hidden = true;
+          if (t < 1) {
+            const edgeY = (wipe / 100) * h;
+            spawnAt(edgeY, w, h, now);
           }
-        }, 320);
-        SoundFx.close();
+
+          ctx.clearRect(0, 0, w, h);
+          for (let i = particles.length - 1; i >= 0; i--) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.04;
+            p.life -= p.decay;
+            if (p.life <= 0) {
+              particles.splice(i, 1);
+              continue;
+            }
+            ctx.globalAlpha = Math.max(0, p.life);
+            ctx.fillStyle = `rgb(${p.color[0]},${p.color[1]},${p.color[2]})`;
+            const s = p.size;
+            ctx.fillRect(p.x, p.y, s, s);
+            if (s > 2.2) {
+              ctx.globalAlpha = p.life * 0.45;
+              ctx.fillRect(p.x + s, p.y + s * 0.3, s * 0.55, s * 0.55);
+            }
+          }
+          ctx.globalAlpha = 1;
+
+          if (t < 1 || particles.length) {
+            requestAnimationFrame(frame);
+          } else {
+            inner.classList.add('is-done');
+            img.style.clipPath = 'inset(0 0 0 0)';
+            canvas.remove();
+            done();
+          }
+        }
+        requestAnimationFrame(frame);
       }
 
-      toggle.addEventListener('click', () => {
-        SoundFx.unlock();
-        if (sheet.classList.contains('open')) closeSheet();
-        else openSheet();
-      });
-      closeBtn.addEventListener('click', closeSheet);
-      backdrop.addEventListener('click', closeSheet);
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
-      });
+      function watch(wrap) {
+        wrap.classList.add('visible');
+        if (reducedMotion) {
+          const inner = wrap.querySelector('.photo-inner');
+          const img = wrap.querySelector('img.photo-materialize-target');
+          if (inner && img) {
+            inner.classList.remove('is-waiting');
+            inner.classList.add('is-ready', 'is-done');
+            img.style.clipPath = 'inset(0 0 0 0)';
+            img.style.opacity = '1';
+          }
+          wrap.dataset.materialized = '1';
+          return;
+        }
+        // If already on screen, start immediately (IO can miss opacity/transform transitions)
+        const rect = wrap.getBoundingClientRect();
+        const vh = window.innerHeight || 0;
+        if (rect.top < vh + 140 && rect.bottom > -140) {
+          queueMaterialize(wrap);
+          return;
+        }
+        ensureObserver().observe(wrap);
+      }
 
-      soundBtn.addEventListener('click', () => {
-        prefs.sound = !prefs.sound;
-        localStorage.setItem('our-days-sound', prefs.sound ? 'on' : 'off');
-        syncToggle(soundBtn, prefs.sound);
-        if (prefs.sound) SoundFx.tap();
-        Haptics.light();
-      });
-      hapBtn.addEventListener('click', () => {
-        prefs.haptics = !prefs.haptics;
-        localStorage.setItem('our-days-haptics', prefs.haptics ? 'on' : 'off');
-        syncToggle(hapBtn, prefs.haptics);
-        SoundFx.tap();
-        if (prefs.haptics) Haptics.medium();
-      });
-      document.querySelectorAll('.feel-dither-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          setDither(btn.dataset.dither);
-          SoundFx.paper();
-          Haptics.light();
-        });
-      });
-    }
+      function materializeNow(inner, img) {
+        if (!inner || !img) return;
+        img.classList.add('photo-materialize-target');
+        if (reducedMotion) {
+          inner.classList.remove('is-waiting');
+          inner.classList.add('is-ready', 'is-done');
+          img.style.clipPath = 'inset(0 0 0 0)';
+          img.style.opacity = '1';
+          return;
+        }
+        inner.classList.add('is-waiting');
+        const go = () => {
+          if (inner.classList.contains('is-done')) return;
+          activeCount++;
+          inner.classList.remove('is-waiting');
+          inner.classList.add('is-ready');
+          animateWipe(inner, img, () => {
+            activeCount = Math.max(0, activeCount - 1);
+            drainQueue();
+          });
+        };
+        if (img.complete && img.naturalWidth > 0) go();
+        else img.addEventListener('load', go, { once: true });
+      }
+
+      return { watch, materializeNow };
+    })();
 
     // ═══════════════════════════════════════════════════════════════════
     // PHOTO BOOK GALLERY
@@ -1927,7 +1905,6 @@
 
         container.appendChild(page);
         observeReveal(page);
-        page.querySelectorAll('.book-photo-wrap').forEach(observeReveal);
       });
 
       const chapterCount = chaptersToShow.filter((c) => filteredPhotos.some((p) => p.category === c.id)).length;
@@ -1936,9 +1913,9 @@
 
     function createPolaroidCard(photo, globalIndex, layoutIndex) {
       const wrap = document.createElement('div');
-      wrap.className = 'book-photo-wrap reveal-photo';
+      wrap.className = 'book-photo-wrap';
+      wrap.dataset.pendingMaterialize = '1';
       wrap.style.setProperty('--rotate', `${ROTATIONS[layoutIndex % ROTATIONS.length]}deg`);
-      wrap.style.transitionDelay = `${(layoutIndex % 6) * 0.07}s`;
 
       const noteHtml = photo.note
         ? `<p class="polaroid-note">${escapeHtml(photo.note)}</p>`
@@ -1947,9 +1924,9 @@
       wrap.innerHTML = `
         <article class="polaroid relative" tabindex="0" role="button" aria-label="View photo: ${escapeHtml(photo.caption)}">
           <span class="tape tape-tl" aria-hidden="true"></span>
-          <div class="photo-inner">
+          <div class="photo-inner is-waiting">
             <span class="polaroid-year">${escapeHtml(photo.year)}</span>
-            <img src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.caption)}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img class="photo-materialize-target" src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.caption)}" loading="lazy" decoding="async">
             <div class="photo-placeholder" style="display:none;" aria-hidden="true">
               <span style="font-family:Caveat,cursive;font-size:1.1rem;color:#8a7f72;">photo missing</span>
             </div>
@@ -1971,13 +1948,17 @@
       return wrap;
     }
 
+    function armPhotoMaterializers(root) {
+      root.querySelectorAll('.book-photo-wrap[data-pending-materialize]').forEach((wrap) => {
+        delete wrap.dataset.pendingMaterialize;
+        PhotoMaterializer.watch(wrap);
+      });
+    }
+
     function observeReveal(el) {
-      if (!entryObserver) {
+      if (!entryObserver || reducedMotion) {
         el.classList.add('visible');
-        return;
-      }
-      if (reducedMotion) {
-        el.classList.add('visible');
+        armPhotoMaterializers(el);
         return;
       }
       entryObserver.observe(el);
@@ -2233,19 +2214,30 @@
     function initScrollReveal() {
       entryObserver = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible');
-          }
+          if (!e.isIntersecting) return;
+          e.target.classList.add('visible');
+          armPhotoMaterializers(e.target);
         });
-      }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+      }, { threshold: 0.02, rootMargin: '100px 0px 100px 0px' });
 
       document.querySelectorAll('.reveal').forEach((el) => {
         if (reducedMotion) {
           el.classList.add('visible');
+          armPhotoMaterializers(el);
         } else {
           entryObserver.observe(el);
         }
       });
+
+      // Failsafe so mobile never stays blank if IO misses
+      setTimeout(() => {
+        document.querySelectorAll('.reveal:not(.visible)').forEach((el) => {
+          el.classList.add('visible');
+          armPhotoMaterializers(el);
+        });
+        // Catch any still-pending photos
+        armPhotoMaterializers(document);
+      }, 2500);
     }
 
     function initJourneyNav() {
@@ -2321,7 +2313,6 @@
     });
 
     // INIT
-    initFeelPanel();
     initScrollReveal();
     initChapterJumps();
     renderGallery();
@@ -2329,6 +2320,14 @@
     initJourneyNav();
     initBackToTop();
     initMusicToggle();
+    {
+      const heroImg = document.getElementById('hero-photo');
+      const heroInner = heroImg && heroImg.closest('.photo-inner');
+      if (heroInner && heroImg) {
+        heroInner.classList.add('is-waiting');
+        PhotoMaterializer.materializeNow(heroInner, heroImg);
+      }
+    }
   </script>
 </body>
 </html>
