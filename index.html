@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Our Days — a personal memory scrapbook from Arriq to Dad, Father's Day 2026">
   <meta name="theme-color" content="#0c1220">
   <title>Our Days</title>
@@ -70,7 +70,10 @@
 
     *, *::before, *::after { box-sizing: border-box; }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5.5rem;
+    }
 
     body {
       margin: 0;
@@ -186,11 +189,51 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 4px 16px rgba(0,0,0,0.25);
     }
 
-    /* Liquid metal accents */
+    /* Unified button system */
+    .btn {
+      --btn-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      min-height: 44px;
+      padding: 0.55rem 1.25rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      font-weight: 600;
+      line-height: 1.2;
+      text-align: center;
+      text-decoration: none;
+      border-radius: var(--btn-radius);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      cursor: pointer;
+      appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.2s ease;
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent-teal);
+      outline-offset: 3px;
+    }
+    .btn:disabled,
+    .btn[disabled] {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .btn-primary,
     .metal-btn {
       position: relative;
       overflow: hidden;
-      color: #1a1520 !important;
+      color: #1a1520;
       background:
         linear-gradient(115deg,
           #f7f3ec 0%,
@@ -202,12 +245,13 @@
           #e8dcc8 100%);
       background-size: 240% 240%;
       animation: metalSheen 7s ease-in-out infinite;
-      border: 1px solid rgba(255,255,255,0.4);
+      border-color: rgba(255,255,255,0.4);
       box-shadow:
         0 6px 22px rgba(232, 184, 109, 0.32),
         inset 0 1px 0 rgba(255,255,255,0.65),
         inset 0 -2px 6px rgba(0,0,0,0.2);
     }
+    .btn-primary::after,
     .metal-btn::after {
       content: '';
       position: absolute;
@@ -224,6 +268,77 @@
     @keyframes metalFlash {
       0%, 70%, 100% { transform: translateX(-50%) rotate(8deg); opacity: 0.35; }
       85% { transform: translateX(50%) rotate(8deg); opacity: 0.7; }
+    }
+
+    .btn-secondary {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(232, 184, 109, 0.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 10px rgba(0, 0, 0, 0.12);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .btn-secondary.teal {
+      border-color: rgba(126, 196, 182, 0.4);
+    }
+
+    .btn-chip {
+      min-height: 40px;
+      padding: 0.35rem 0.95rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.16);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .btn-chip.active,
+    .btn-chip.on {
+      color: #1a1520;
+      background: linear-gradient(120deg, var(--metal-hi), var(--metal-amber), var(--metal-teal));
+      border-color: rgba(255,255,255,0.35);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+
+    .btn-chrome {
+      min-height: 44px;
+      padding: 0.5rem 0.95rem;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.18);
+      backdrop-filter: blur(14px) saturate(1.3);
+      -webkit-backdrop-filter: blur(14px) saturate(1.3);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn-chip:hover {
+        color: #1a1520;
+        background: linear-gradient(120deg, var(--metal-hi), var(--metal-amber), var(--metal-teal));
+        border-color: rgba(255,255,255,0.35);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+      }
+      .btn-chrome:hover { color: var(--accent-amber); }
+      .btn-primary:hover,
+      .metal-btn:hover,
+      .btn-journey:hover {
+        transform: translateY(-2px);
+        box-shadow:
+          0 10px 28px rgba(232, 184, 109, 0.38),
+          inset 0 1px 0 rgba(255,255,255,0.6);
+      }
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        background: rgba(232, 184, 109, 0.14);
+        border-color: rgba(232, 184, 109, 0.55);
+      }
+      .btn-secondary.teal:hover {
+        background: rgba(126, 196, 182, 0.14);
+        border-color: rgba(126, 196, 182, 0.5);
+      }
     }
 
     /* Tape strips on polaroid */
@@ -316,31 +431,12 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Handcrafted metal CTA */
+    /* Primary CTA (hero) */
     .btn-journey {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.85rem 2rem;
-      font-family: 'Caveat', cursive;
-      font-size: 1.5rem;
-      font-weight: 600;
-      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      font-size: 1.45rem;
+      padding: 0.7rem 1.75rem;
       animation: fadeUp 1s ease-out 1s both;
       z-index: 1;
-    }
-    .btn-journey:hover {
-      transform: translateY(-3px) rotate(-0.5deg);
-      box-shadow:
-        0 10px 28px rgba(232, 184, 109, 0.38),
-        inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-    .btn-journey:focus-visible {
-      outline: 2px solid var(--accent-teal);
-      outline-offset: 4px;
     }
 
     /* Letter */
@@ -479,6 +575,7 @@
       position: relative;
       line-height: 0;
       flex-shrink: 0;
+      min-height: 10rem;
     }
 
     .polaroid-year {
@@ -531,11 +628,13 @@
     .search-input {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 12px;
+      border-radius: 999px;
       color: var(--text-primary);
-      padding: 0.65rem 1rem 0.65rem 2.5rem;
+      padding: 0.7rem 1rem 0.7rem 2.5rem;
       width: 100%;
+      min-height: 44px;
       font-family: 'Nunito', sans-serif;
+      font-size: 16px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
@@ -545,24 +644,7 @@
       box-shadow: 0 0 0 3px rgba(126, 196, 182, 0.12);
     }
 
-    .chapter-jump {
-      font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
-      padding: 0.45rem 1.05rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      color: var(--text-muted);
-      background: rgba(255,255,255,0.04);
-      cursor: pointer;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(8px);
-    }
-    .chapter-jump:hover, .chapter-jump.active {
-      color: var(--accent-amber);
-      border-color: rgba(232, 184, 109, 0.45);
-      background: rgba(232, 184, 109, 0.1);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
-    }
+    /* chapter chips use .btn.btn-chip */
 
     .reveal {
       opacity: 0;
@@ -626,7 +708,7 @@
       transform: translateY(-50%);
       width: 44px;
       height: 44px;
-      border-radius: 50%;
+      border-radius: 999px;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.2);
       color: var(--accent-amber);
@@ -636,6 +718,9 @@
       justify-content: center;
       transition: background 0.2s;
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .lightbox-nav:hover { background: rgba(232, 184, 109, 0.2); }
     .lightbox-nav.prev { left: 1rem; }
@@ -668,38 +753,7 @@
       opacity: 0.92;
     }
     .btn-personal-note {
-      display: inline-block;
-      font-family: 'Caveat', cursive;
-      font-size: clamp(1.25rem, 3.5vw, 1.55rem);
-      font-weight: 600;
-      color: var(--text-primary);
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(232, 184, 109, 0.35);
-      border-radius: 255px 12px 225px 15px / 12px 225px 15px 255px;
-      padding: 0.65rem 1.35rem;
-      cursor: pointer;
-      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 2px 10px rgba(0, 0, 0, 0.12);
-      line-height: 1.3;
-      text-align: center;
-      backdrop-filter: blur(8px);
-    }
-    .btn-personal-note:hover {
-      transform: translateY(-2px) rotate(-0.4deg);
-      background: rgba(232, 184, 109, 0.14);
-      border-color: rgba(232, 184, 109, 0.55);
-    }
-    .btn-personal-note.teal {
-      border-color: rgba(126, 196, 182, 0.35);
-    }
-    .btn-personal-note.teal:hover {
-      background: rgba(126, 196, 182, 0.14);
-      border-color: rgba(126, 196, 182, 0.5);
-    }
-    .btn-personal-note:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none;
+      font-size: clamp(1.2rem, 3.5vw, 1.4rem);
     }
     .memory-display {
       font-family: 'Caveat', cursive;
@@ -818,45 +872,50 @@
 
     .back-to-top {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
+      bottom: max(1rem, env(safe-area-inset-bottom));
+      right: max(1rem, env(safe-area-inset-right));
       z-index: 40;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.6rem 1rem;
-      font-family: 'Caveat', cursive;
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      border-radius: 12px;
-      cursor: pointer;
       opacity: 0;
       visibility: hidden;
       transform: translateY(10px);
-      transition: all 0.35s ease;
+      pointer-events: none;
     }
     .back-to-top.visible {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
-    }
-    .back-to-top:hover {
-      color: var(--accent-amber);
+      pointer-events: auto;
     }
 
     .journey-nav {
       left: 50%;
-      transform: translate(-50%, -120%);
-      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+      top: max(0.65rem, env(safe-area-inset-top));
+      transform: translate(-50%, calc(-100% - 1.5rem));
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
       width: min(48rem, calc(100% - 7.5rem));
       max-width: calc(100% - 7.5rem);
+      padding: 0.55rem 1rem;
+      visibility: hidden;
+      pointer-events: none;
     }
-    .journey-nav.visible { transform: translate(-50%, 0); }
+    .journey-nav.visible {
+      transform: translate(-50%, 0);
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .journey-nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.65rem 1.1rem;
+    }
     .journey-nav a {
       font-family: 'Caveat', cursive;
       font-size: 1.1rem;
       color: var(--text-muted);
       transition: color 0.2s;
+      padding: 0.2rem 0.15rem;
+      white-space: nowrap;
     }
     .journey-nav a:hover { color: var(--accent-amber); }
 
@@ -909,36 +968,18 @@
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
     }
 
-    /* Chrome controls */
-    .chrome-btn {
-      display: inline-flex;
+    /* Chrome controls cluster */
+    .chrome-cluster {
+      position: fixed;
+      top: max(0.75rem, env(safe-area-inset-top));
+      right: max(0.75rem, env(safe-area-inset-right));
+      z-index: 50;
+      display: flex;
       align-items: center;
       gap: 0.4rem;
-      min-height: 44px;
-      padding: 0.55rem 0.9rem;
-      font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      flex-direction: row-reverse;
     }
-    .chrome-btn:hover { color: var(--accent-amber); }
-
-    #music-toggle {
-      top: 1rem;
-      right: 1rem;
-    }
-    #feel-toggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 50;
-    }
-    body.has-music #feel-toggle {
-      right: auto;
-      left: 1rem;
-    }
+    #music-toggle.hidden { display: none !important; }
 
     /* Experience sheet */
     .feel-sheet-backdrop {
@@ -957,9 +998,9 @@
     .feel-sheet {
       position: fixed;
       z-index: 61;
-      left: 1rem;
-      right: 1rem;
-      bottom: 1.25rem;
+      left: max(1rem, env(safe-area-inset-left));
+      right: max(1rem, env(safe-area-inset-right));
+      bottom: max(1rem, env(safe-area-inset-bottom));
       max-width: 22rem;
       margin: 0 auto;
       padding: 1.35rem 1.25rem 1.2rem;
@@ -975,9 +1016,9 @@
     }
     @media (min-width: 640px) {
       .feel-sheet {
-        left: 1.25rem;
+        left: max(1.25rem, env(safe-area-inset-left));
         right: auto;
-        bottom: 1.5rem;
+        bottom: max(1.5rem, env(safe-area-inset-bottom));
         margin: 0;
       }
     }
@@ -987,12 +1028,26 @@
       color: var(--text-primary);
       margin: 0 0 0.15rem;
     }
+    .feel-sheet-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+    .feel-close {
+      min-height: 40px;
+      min-width: 40px;
+      padding: 0;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
     .feel-sheet .feel-sub {
       font-family: 'Lora', Georgia, serif;
       font-style: italic;
       font-size: 0.85rem;
       color: var(--text-muted);
-      margin-bottom: 1.1rem;
+      margin: 0 0 0.85rem;
     }
     .feel-row {
       display: flex;
@@ -1015,32 +1070,12 @@
       color: var(--text-soft);
       margin-top: 0.1rem;
     }
-    .feel-toggle-btn,
-    .feel-dither-btn {
-      font-family: 'Caveat', cursive;
-      font-size: 1.05rem;
-      min-height: 36px;
-      padding: 0.25rem 0.75rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.05);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .feel-toggle-btn.on,
-    .feel-dither-btn.active {
-      color: #1a1520;
-      background: linear-gradient(120deg, var(--metal-hi), var(--metal-amber), var(--metal-teal));
-      border-color: rgba(255,255,255,0.35);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
-    }
     .feel-dither-group {
       display: flex;
       flex-wrap: wrap;
       gap: 0.35rem;
       justify-content: flex-end;
-      max-width: 12rem;
+      max-width: 13rem;
     }
 
     /* Hidden iOS haptic switch */
@@ -1054,6 +1089,167 @@
       pointer-events: none;
     }
 
+    /* Mobile layout */
+    @media (max-width: 639px) {
+      html {
+        scroll-padding-top: 7.25rem;
+      }
+      .hero-scrapbook {
+        min-height: 100svh;
+        padding:
+          calc(4.5rem + env(safe-area-inset-top))
+          1.1rem
+          calc(2.5rem + env(safe-area-inset-bottom));
+      }
+      .hero-polaroid {
+        width: min(78vw, 260px);
+        margin-bottom: 1.75rem;
+      }
+      .hero-byline { margin-bottom: 1.75rem; }
+      .btn-journey {
+        width: min(100%, 20rem);
+        max-width: 100%;
+      }
+
+      .journey-nav {
+        top: calc(3.75rem + env(safe-area-inset-top));
+        width: calc(100% - 1.25rem);
+        max-width: none;
+        padding: 0.45rem 0.55rem;
+        border-radius: 14px;
+      }
+      .journey-nav-links {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        gap: 0.85rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 0.1rem 0.25rem;
+      }
+      .journey-nav-links::-webkit-scrollbar { display: none; }
+      .journey-nav a {
+        font-size: 1.05rem;
+        min-height: 36px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      section.px-5 {
+        padding-left: 1.1rem !important;
+        padding-right: 1.1rem !important;
+      }
+      section.py-16 {
+        padding-top: 3.25rem !important;
+        padding-bottom: 3.25rem !important;
+      }
+
+      .letter-page {
+        padding: 1.5rem 1.15rem;
+        border-radius: 16px;
+      }
+
+      .book-page {
+        padding: 1.35rem 0.85rem 1.75rem;
+      }
+      .book-spread {
+        gap: 1.75rem;
+      }
+      .book-photo-wrap {
+        max-width: 280px;
+      }
+
+      .gallery-toolbar {
+        flex-direction: column;
+        align-items: stretch !important;
+      }
+      #chapter-jumps {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0.4rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 0.15rem;
+      }
+      #chapter-jumps::-webkit-scrollbar { display: none; }
+      #chapter-jumps .btn {
+        flex: 0 0 auto;
+      }
+
+      .btn-secondary,
+      .btn-personal-note {
+        width: 100%;
+        max-width: 22rem;
+      }
+      .breath-controls {
+        flex-direction: column;
+        width: 100%;
+        max-width: 22rem;
+      }
+      .breath-controls .btn {
+        width: 100%;
+      }
+
+      .feel-row {
+        align-items: flex-start;
+        gap: 0.65rem;
+      }
+      .feel-row .btn-chip {
+        min-width: 3.5rem;
+      }
+      .feel-dither-group {
+        max-width: none;
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .feel-dither-group .btn {
+        flex: 1 1 calc(25% - 0.35rem);
+        min-width: 0;
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+      }
+
+      .lightbox {
+        padding:
+          calc(1rem + env(safe-area-inset-top))
+          0.75rem
+          calc(1rem + env(safe-area-inset-bottom));
+      }
+      .lightbox-img-wrap {
+        padding: 10px 10px 28px;
+        max-width: 94vw;
+      }
+      .lightbox img {
+        max-width: 88vw;
+        max-height: 52vh;
+      }
+      .lightbox-nav {
+        width: 44px;
+        height: 44px;
+        top: auto;
+        bottom: max(1.25rem, env(safe-area-inset-bottom));
+        transform: none;
+      }
+      .lightbox-nav.prev { left: max(0.75rem, env(safe-area-inset-left)); }
+      .lightbox-nav.next { right: max(0.75rem, env(safe-area-inset-right)); }
+      #lightbox-close {
+        top: max(0.75rem, env(safe-area-inset-top));
+        right: max(0.75rem, env(safe-area-inset-right));
+      }
+
+      .back-to-top {
+        bottom: max(1rem, env(safe-area-inset-bottom));
+        right: max(0.85rem, env(safe-area-inset-right));
+        font-size: 1.05rem;
+        padding: 0.5rem 0.85rem;
+      }
+
+      .appreciate-row {
+        padding: 1rem 1rem;
+      }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
@@ -1061,8 +1257,8 @@
         transition-duration: 0.01ms !important;
       }
       html { scroll-behavior: auto; }
-      .metal-btn, .hero-title { animation: none !important; }
-      .metal-btn::after { display: none; }
+      .metal-btn, .btn-primary, .hero-title { animation: none !important; }
+      .metal-btn::after, .btn-primary::after { display: none; }
     }
 
     :focus-visible {
@@ -1078,35 +1274,41 @@
 
   <input type="checkbox" class="ios-haptic-switch" id="ios-haptic-switch" switch aria-hidden="true" tabindex="-1">
 
-  <button id="feel-toggle" class="chrome-btn glass-pill" aria-expanded="false" aria-controls="feel-sheet" aria-label="Open feel settings">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-    Feel
-  </button>
-
-  <button id="music-toggle" class="chrome-btn glass-pill fixed z-50 hidden" aria-label="Toggle calm background music">
-    <svg class="w-4 h-4 music-icon-off" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
-    <svg class="w-4 h-4 music-icon-on hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-    <span class="music-label">Music</span>
-  </button>
+  <div class="chrome-cluster">
+    <button id="feel-toggle" class="btn btn-chrome" aria-expanded="false" aria-controls="feel-sheet" aria-label="Open feel settings">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M7.05 16.95l-1.414 1.414m12.728 0l-1.414-1.414M7.05 7.05L5.636 5.636M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+      Feel
+    </button>
+    <button id="music-toggle" class="btn btn-chrome hidden" aria-label="Toggle calm background music">
+      <svg class="w-4 h-4 music-icon-off" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+      <svg class="w-4 h-4 music-icon-on hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+      <span class="music-label">Music</span>
+    </button>
+  </div>
   <audio id="ambient-audio" loop preload="none"><source src="audio/calm-ambient.mp3" type="audio/mpeg"></audio>
 
   <div id="feel-backdrop" class="feel-sheet-backdrop" hidden></div>
   <div id="feel-sheet" class="feel-sheet glass-panel" role="dialog" aria-modal="true" aria-labelledby="feel-heading" hidden>
-    <h2 id="feel-heading">How it feels</h2>
-    <p class="feel-sub">Little dials for sound, touch, and look</p>
+    <div class="feel-sheet-head">
+      <div>
+        <h2 id="feel-heading">How it feels</h2>
+        <p class="feel-sub">Little dials for sound, touch, and look</p>
+      </div>
+      <button type="button" id="feel-close" class="btn btn-chrome feel-close" aria-label="Close feel settings">✕</button>
+    </div>
     <div class="feel-row">
       <div>
         <span class="feel-label">Sound</span>
         <span class="feel-hint">Soft taps &amp; paper tones</span>
       </div>
-      <button type="button" id="pref-sound" class="feel-toggle-btn" aria-pressed="true">On</button>
+      <button type="button" id="pref-sound" class="btn btn-chip" aria-pressed="true">On</button>
     </div>
     <div class="feel-row">
       <div>
         <span class="feel-label">Haptics</span>
         <span class="feel-hint">Gentle pulses when supported</span>
       </div>
-      <button type="button" id="pref-haptics" class="feel-toggle-btn" aria-pressed="true">On</button>
+      <button type="button" id="pref-haptics" class="btn btn-chip" aria-pressed="true">On</button>
     </div>
     <div class="feel-row">
       <div>
@@ -1114,16 +1316,16 @@
         <span class="feel-hint">Print &amp; art atmosphere</span>
       </div>
       <div class="feel-dither-group" role="group" aria-label="Dither look">
-        <button type="button" class="feel-dither-btn" data-dither="off">Off</button>
-        <button type="button" class="feel-dither-btn" data-dither="soft">Soft</button>
-        <button type="button" class="feel-dither-btn" data-dither="print">Print</button>
-        <button type="button" class="feel-dither-btn" data-dither="art">Art</button>
+        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="off">Off</button>
+        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="soft">Soft</button>
+        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="print">Print</button>
+        <button type="button" class="btn btn-chip feel-dither-btn" data-dither="art">Art</button>
       </div>
     </div>
   </div>
 
-  <nav id="journey-nav" class="journey-nav glass-panel fixed top-0 z-40 mt-3 px-4 py-2.5" aria-label="Journey sections">
-    <div class="flex flex-wrap justify-center gap-3 sm:gap-5">
+  <nav id="journey-nav" class="journey-nav glass-panel fixed z-40" aria-label="Journey sections">
+    <div class="journey-nav-links">
       <a href="#letter">Letter</a>
       <a href="#gallery">Photos</a>
       <a href="#memories">Memories</a>
@@ -1132,7 +1334,7 @@
     </div>
   </nav>
 
-  <button id="back-to-top" class="back-to-top glass-pill" aria-label="Back to top">
+  <button id="back-to-top" class="btn btn-chrome back-to-top" aria-label="Back to top">
     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
     back to top
   </button>
@@ -1154,7 +1356,7 @@
       <p class="hero-subtitle">A place to breathe when the days get heavy</p>
       <p class="hero-byline">made with endless love by Arriq</p>
 
-      <a href="#letter" class="btn-journey metal-btn" id="begin-journey">
+      <a href="#letter" class="btn btn-primary btn-journey metal-btn" id="begin-journey">
         Begin the Journey
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       </a>
@@ -1177,12 +1379,12 @@
       <h2 id="gallery-heading" class="section-title">Our Photo Book</h2>
       <p class="section-subtitle mb-10">Flip through the pages; every photo has a note from me.</p>
 
-      <div class="flex flex-col sm:flex-row gap-3 mb-6 items-stretch sm:items-center">
+      <div class="gallery-toolbar flex flex-col sm:flex-row gap-3 mb-6 items-stretch sm:items-center">
         <div class="flex flex-wrap gap-2" id="chapter-jumps" role="tablist" aria-label="Jump to chapter"></div>
         <div class="relative flex-1 sm:max-w-xs sm:ml-auto">
           <label for="photo-search" class="sr-only">Search photos</label>
-          <input type="search" id="photo-search" class="search-input" placeholder="Search our memories…">
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-soft)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="search" id="photo-search" class="search-input" placeholder="Search our memories…" enterkeyhint="search">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-soft)] pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
         </div>
       </div>
       <p id="photo-count" class="text-sm text-[var(--text-soft)] mb-8 text-center font-serif italic" aria-live="polite"></p>
@@ -1196,7 +1398,7 @@
       <div class="glass-panel p-8 pt-9 text-center">
         <p class="moment-eyebrow">From your son</p>
         <p class="moment-intro">Some days get loud and busy. Tap below and I'll remind you of something good we shared.</p>
-        <button id="memory-btn" class="btn-personal-note mb-6" aria-label="Pull a random memory from Arriq">
+        <button id="memory-btn" class="btn btn-secondary btn-personal-note mb-6" aria-label="Pull a random memory from Arriq">
           Pull a memory from Arriq
         </button>
         <p id="memory-text" class="fade-text memory-display flex items-center justify-center" aria-live="polite">
@@ -1226,16 +1428,16 @@
             <span class="breath-step-label" data-step="2">8 out</span>
           </div>
           <div class="breath-controls">
-            <button id="breath-start" class="btn-personal-note teal text-base">Let's start</button>
-            <button id="breath-pause" class="btn-personal-note teal text-base opacity-50" disabled>Take a break</button>
-            <button id="breath-reset" class="btn-personal-note teal text-base">Start over</button>
+            <button id="breath-start" class="btn btn-secondary btn-personal-note teal">Let's start</button>
+            <button id="breath-pause" class="btn btn-secondary btn-personal-note teal opacity-50" disabled>Take a break</button>
+            <button id="breath-reset" class="btn btn-secondary btn-personal-note teal">Start over</button>
           </div>
         </div>
         <div class="glass-panel p-7 pt-8 flex flex-col items-center justify-center text-center">
           <p class="moment-eyebrow mb-1">From your son</p>
           <h3 class="font-hand text-2xl text-[var(--accent-amber)] mb-2">A Quick Reminder</h3>
           <p class="moment-intro mb-5">Things I think about you but don't always say out loud.</p>
-          <button id="gratitude-btn" class="btn-personal-note mb-5" aria-label="Show something Arriq loves about Dad">
+          <button id="gratitude-btn" class="btn btn-secondary btn-personal-note mb-5" aria-label="Show something Arriq loves about Dad">
             Show me something Arriq loves about you
           </button>
           <p id="gratitude-text" class="fade-text gratitude-display empty flex items-center justify-center" aria-live="polite">Tap when you need to hear it.</p>
@@ -1261,7 +1463,7 @@
     <button class="lightbox-nav next" id="lightbox-next" aria-label="Next photo">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
     </button>
-    <button id="lightbox-close" class="absolute top-4 right-4 w-10 h-10 rounded-full glass-pill flex items-center justify-center text-[var(--accent-amber)]" aria-label="Close">
+    <button id="lightbox-close" class="absolute top-4 right-4 w-11 h-11 btn btn-chrome flex items-center justify-center text-[var(--accent-amber)]" aria-label="Close" style="border-radius:999px;padding:0;">
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
     <div class="lightbox-img-wrap mb-4">
@@ -1571,6 +1773,7 @@
 
     function syncToggle(btn, on) {
       btn.classList.toggle('on', on);
+      btn.classList.toggle('active', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
       btn.textContent = on ? 'On' : 'Off';
     }
@@ -1579,6 +1782,7 @@
       const toggle = document.getElementById('feel-toggle');
       const sheet = document.getElementById('feel-sheet');
       const backdrop = document.getElementById('feel-backdrop');
+      const closeBtn = document.getElementById('feel-close');
       const soundBtn = document.getElementById('pref-sound');
       const hapBtn = document.getElementById('pref-haptics');
 
@@ -1615,6 +1819,7 @@
         if (sheet.classList.contains('open')) closeSheet();
         else openSheet();
       });
+      closeBtn.addEventListener('click', closeSheet);
       backdrop.addEventListener('click', closeSheet);
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
@@ -1781,7 +1986,7 @@
     function initChapterJumps() {
       const container = document.getElementById('chapter-jumps');
       const allBtn = document.createElement('button');
-      allBtn.className = 'chapter-jump active';
+      allBtn.className = 'btn btn-chip chapter-jump active';
       allBtn.textContent = 'All';
       allBtn.dataset.chapter = 'all';
       allBtn.addEventListener('click', () => setChapter('all', container));
@@ -1789,7 +1994,7 @@
 
       CHAPTERS.forEach((ch) => {
         const btn = document.createElement('button');
-        btn.className = 'chapter-jump';
+        btn.className = 'btn btn-chip chapter-jump';
         btn.textContent = ch.label;
         btn.dataset.chapter = ch.id;
         btn.addEventListener('click', () => setChapter(ch.id, container));
@@ -2077,8 +2282,6 @@
       audio.volume = 0.3;
       audio.addEventListener('canplaythrough', () => {
         toggle.classList.remove('hidden');
-        toggle.classList.add('flex');
-        document.body.classList.add('has-music');
         if (localStorage.getItem('our-days-music') === 'on') {
           audio.play().catch(() => {});
           iconOff.classList.add('hidden');
@@ -2088,7 +2291,6 @@
       });
       audio.addEventListener('error', () => {
         toggle.classList.add('hidden');
-        document.body.classList.remove('has-music');
       });
       audio.load();
       toggle.addEventListener('click', () => {
