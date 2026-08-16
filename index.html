@@ -72,7 +72,7 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 5.5rem;
+      scroll-padding-top: 4.75rem;
     }
 
     body {
@@ -931,14 +931,26 @@
 
     .journey-nav {
       left: 50%;
-      top: max(0.65rem, env(safe-area-inset-top));
+      top: max(0.75rem, env(safe-area-inset-top));
       transform: translate(-50%, calc(-100% - 1.5rem));
-      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s;
-      width: min(48rem, calc(100% - 7.5rem));
-      max-width: calc(100% - 7.5rem);
-      padding: 0.55rem 1rem;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.45s, opacity 0.35s;
+      width: max-content;
+      max-width: min(40rem, calc(100vw - 2rem));
+      padding: 0.4rem 0.55rem;
       visibility: hidden;
       pointer-events: none;
+      /* Solid fill + difference = bar inverts the backdrop, text stays readable */
+      color: #000;
+      background: #fff;
+      border: 1px solid #fff;
+      border-radius: 999px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      mix-blend-mode: difference;
+    }
+    .journey-nav::before {
+      display: none;
     }
     .journey-nav.visible {
       transform: translate(-50%, 0);
@@ -947,19 +959,32 @@
     }
     .journey-nav-links {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       justify-content: center;
-      gap: 0.65rem 1.1rem;
+      align-items: center;
+      gap: 0.1rem;
     }
     .journey-nav a {
       font-family: 'Caveat', cursive;
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      transition: color 0.2s;
-      padding: 0.2rem 0.15rem;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #000;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
+      padding: 0.35rem 0.75rem;
       white-space: nowrap;
+      border-radius: 999px;
+      opacity: 1;
     }
-    .journey-nav a:hover { color: var(--accent-amber); }
+    .journey-nav a:hover,
+    .journey-nav a:focus-visible {
+      background: #000;
+      color: #fff;
+      outline: none;
+    }
+    .journey-nav a.is-active {
+      background: #000;
+      color: #fff;
+    }
 
     .section-title {
       font-family: 'Caveat', cursive;
@@ -1057,27 +1082,31 @@
       }
 
       .journey-nav {
-        top: calc(3.75rem + env(safe-area-inset-top));
-        width: calc(100% - 1.25rem);
-        max-width: none;
-        padding: 0.45rem 0.55rem;
-        border-radius: 14px;
+        top: max(0.75rem, env(safe-area-inset-top));
+        width: max-content;
+        max-width: calc(100vw - 1.25rem);
+        padding: 0.4rem 0.5rem;
+        border-radius: 999px;
+      }
+      body.has-music .journey-nav {
+        max-width: calc(100vw - 5.75rem);
       }
       .journey-nav-links {
         flex-wrap: nowrap;
-        justify-content: flex-start;
-        gap: 0.85rem;
+        justify-content: center;
+        gap: 0.1rem;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
-        padding: 0.1rem 0.25rem;
+        max-width: 100%;
       }
       .journey-nav-links::-webkit-scrollbar { display: none; }
       .journey-nav a {
-        font-size: 1.05rem;
+        font-size: 1.08rem;
         min-height: 36px;
         display: inline-flex;
         align-items: center;
+        padding: 0.3rem 0.55rem;
       }
 
       section.px-5 {
@@ -1214,13 +1243,13 @@
   </div>
   <audio id="ambient-audio" loop preload="none"><source src="audio/calm-ambient.mp3" type="audio/mpeg"></audio>
 
-  <nav id="journey-nav" class="journey-nav glass-panel fixed z-40" aria-label="Journey sections">
+  <nav id="journey-nav" class="journey-nav fixed z-40" aria-label="Journey sections">
     <div class="journey-nav-links">
-      <a href="#letter">Letter</a>
-      <a href="#gallery">Photos</a>
-      <a href="#memories">Memories</a>
-      <a href="#calm">Calm</a>
-      <a href="#appreciate">Appreciate</a>
+      <a href="#letter" data-section="letter">Letter</a>
+      <a href="#gallery" data-section="gallery">Photos</a>
+      <a href="#memories" data-section="memories">Memories</a>
+      <a href="#calm" data-section="calm">Calm</a>
+      <a href="#appreciate" data-section="appreciate">Appreciate</a>
     </div>
   </nav>
 
@@ -2242,15 +2271,38 @@
 
     function initJourneyNav() {
       const nav = document.getElementById('journey-nav');
+      const links = [...nav.querySelectorAll('a[data-section]')];
       new IntersectionObserver(([e]) => {
         nav.classList.toggle('visible', !e.isIntersecting);
       }, { threshold: 0.1 }).observe(document.getElementById('hero'));
-      nav.querySelectorAll('a').forEach((a) => {
+
+      links.forEach((a) => {
         a.addEventListener('click', () => {
           SoundFx.tap();
           Haptics.light();
         });
       });
+
+      const sectionIds = links.map((a) => a.dataset.section);
+      const sections = sectionIds
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      const setActive = (id) => {
+        links.forEach((a) => {
+          a.classList.toggle('is-active', a.dataset.section === id);
+        });
+      };
+
+      if (sections.length) {
+        const spy = new IntersectionObserver((entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+          if (visible[0]) setActive(visible[0].target.id);
+        }, { threshold: [0.18, 0.35, 0.55], rootMargin: '-20% 0px -45% 0px' });
+        sections.forEach((sec) => spy.observe(sec));
+      }
     }
 
     function initBackToTop() {
@@ -2274,6 +2326,7 @@
       audio.volume = 0.3;
       audio.addEventListener('canplaythrough', () => {
         toggle.classList.remove('hidden');
+        document.body.classList.add('has-music');
         if (localStorage.getItem('our-days-music') === 'on') {
           audio.play().catch(() => {});
           iconOff.classList.add('hidden');
@@ -2283,6 +2336,7 @@
       });
       audio.addEventListener('error', () => {
         toggle.classList.add('hidden');
+        document.body.classList.remove('has-music');
       });
       audio.load();
       toggle.addEventListener('click', () => {
